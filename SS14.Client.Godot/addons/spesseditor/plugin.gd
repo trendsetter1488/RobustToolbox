@@ -34,7 +34,7 @@ func init_panel():
 	panel = Button.new()
 	panel.text = "Sync SS14 assets"
 	panel.connect("pressed", self, "_on_sync_button_pressed")
-	add_control_to_bottom_panel(panel, "honk!")
+	add_control_to_bottom_panel(panel, "SS14 Model Sync")
 
 func create_model_dirs():
 	var dir = Directory.new()
@@ -44,12 +44,28 @@ func create_model_dirs():
 
 func _on_sync_button_pressed():
 	print("joy")
-	var indir = get_ss14_content_dir()
-	indir.change_dir("Resources/Models")
 
+	var indir = get_ss14_engine_dir()
 	var outdir = Directory.new()
-	outdir.open("res://models/content")
+	if indir.dir_exists("Resources/Models"):
+		indir.change_dir("Resources/Models")
 
+		outdir.open("res://models/engine")
+
+		sync_files_in_dir(indir, outdir)
+
+	if has_content_repo:
+		indir = get_ss14_content_dir()
+		if indir.dir_exists("Resources/Models"):
+			indir.change_dir("Resources/Models")
+
+			outdir = Directory.new()
+			outdir.open("res://models/content")
+
+			sync_files_in_dir(indir, outdir)
+
+
+func sync_files_in_dir(indir, outdir):
 	for file in recursively_find_files(indir):
 		print(file)
 		var inpath = indir.get_current_dir() + "/" + file
@@ -63,9 +79,13 @@ func _on_sync_button_pressed():
 				print("skipping")
 				continue
 
+		else:
+			var targetdirpath = dir_path_containing_file(file)
+			if not outdir.dir_exists(targetdirpath):
+				outdir.make_dir_recursive(targetdirpath)
+
 		# God fucking damnit this copy function lied and doesn't take in relative paths correctly.
 		outdir.copy(inpath, outpath)
-
 
 func check_if_has_content_repo():
 	var dir = get_ss14_content_dir()
@@ -121,5 +141,10 @@ func _recursively_find_files_internal(directory, outfiles, currentdirrelative):
 
 		else:
 			outfiles.append(relpath)
+
+
+func dir_path_containing_file(filepath):
+	var last = filepath.rfind("/")
+	return filepath.substr(0, last)
 
 # I lied when I said my anger was vented.
