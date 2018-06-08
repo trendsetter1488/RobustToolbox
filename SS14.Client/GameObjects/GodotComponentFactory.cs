@@ -7,9 +7,10 @@ namespace SS14.Client.GameObjects
     {
         public GodotComponentFactory() : base()
         {
-            Register<GodotTransformComponent>(overwrite: true);
-            RegisterReference<GodotTransformComponent, ITransformComponent>();
-            RegisterReference<GodotTransformComponent, IGodotTransformComponent>();
+            //TODO: FIX THISSSSSSSSSSSSSSSSS
+            //Register<GodotTransformComponent>(overwrite: true);
+            //RegisterReference<GodotTransformComponent, ITransformComponent>();
+            //RegisterReference<GodotTransformComponent, IGodotTransformComponent>();
         }
     }
 }

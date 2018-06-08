@@ -89,7 +89,7 @@ namespace SS14.Client.Graphics.Lighting
                 }
                 else
                 {
-                    parentTransform.SceneNode.RemoveChild(occluder);
+                    parentTransform.Node.RemoveChild(occluder);
                 }
                 UpdateEnabled();
             }
@@ -98,7 +98,7 @@ namespace SS14.Client.Graphics.Lighting
             {
                 if (!Deferred)
                 {
-                    node.SceneNode.AddChild(occluder);
+                    node.Node.AddChild(occluder);
                 }
                 parentTransform = node;
                 UpdateEnabled();
@@ -114,7 +114,7 @@ namespace SS14.Client.Graphics.Lighting
                 // TODO: Maybe use OnMove events to make this less expensive.
                 if (Deferred && parentTransform != null)
                 {
-                    var newPos = parentTransform.SceneNode.GlobalPosition;
+                    var newPos = parentTransform.GlobalPosition;
                     if (CurrentPos != newPos)
                     {
                         occluder.Position = newPos;

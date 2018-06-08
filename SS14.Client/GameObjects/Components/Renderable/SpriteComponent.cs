@@ -545,7 +545,7 @@ namespace SS14.Client.GameObjects
             base.Initialize();
 
             TransformComponent = Owner.GetComponent<IGodotTransformComponent>();
-            TransformComponent.SceneNode.AddChild(SceneNode);
+            TransformComponent.Node.AddChild(SceneNode);
             Redraw();
         }
 

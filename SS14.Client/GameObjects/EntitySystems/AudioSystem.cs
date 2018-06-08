@@ -94,7 +94,7 @@ namespace SS14.Client.GameObjects.EntitySystems
         /// <param name="entity">The entity "emitting" the audio.</param>
         public void Play(AudioStream stream, IEntity entity, AudioParams? audioParams = null)
         {
-            var parent = entity.GetComponent<IGodotTransformComponent>().SceneNode;
+            var parent = entity.GetComponent<IGodotTransformComponent>().Node;
             var player = new Godot.AudioStreamPlayer2D()
             {
                 Stream = stream.GodotAudioStream,

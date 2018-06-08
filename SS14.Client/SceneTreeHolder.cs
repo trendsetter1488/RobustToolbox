@@ -11,16 +11,27 @@ namespace SS14.Client
     public class SceneTreeHolder : ISceneTreeHolder
     {
         public Godot.SceneTree SceneTree { get; private set; }
-        public Godot.Node2D WorldRoot { get; private set; }
+
+        public Godot.Node WorldRoot { get; private set; }
 
         public void Initialize(Godot.SceneTree tree)
         {
             SceneTree = tree ?? throw new ArgumentNullException(nameof(tree));
 
-            WorldRoot = new Godot.Node2D
+            if(true) //TODO 2DVS3D
             {
-                Name = "WorldRoot"
-            };
+                WorldRoot = new Godot.Node2D
+                {
+                    Name = "WorldRoot"
+                };
+            }
+            else
+            {
+                WorldRoot = new Godot.Spatial
+                {
+                    Name = "WorldRoot"
+                };
+            }
             SceneTree.GetRoot().AddChild(WorldRoot);
         }
     }

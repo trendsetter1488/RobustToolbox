@@ -125,7 +125,7 @@ namespace SS14.Client.GameObjects
                 // TODO: this is horribly broken if the parent changes too, because the coordinates are all messed up.
                 // Help.
                 OnMove?.Invoke(this, new MoveEventArgs(oldPos, LocalCoordinatesFor(newState.LocalPosition, newState.MapID, newState.GridID)));
-                SetPosition(newState.LocalPosition);
+                SetPosition(newState.LocalPosition.X, newState.LocalPosition.Y);
                 MapID = newState.MapID;
                 GridID = newState.GridID;
             }
@@ -239,15 +239,15 @@ namespace SS14.Client.GameObjects
             }
         }
 
-        // Hooks for GodotTransformComponent go here.
-        protected virtual void SetPosition(Vector2 position)
+        // Godottransformcomponents completely override these functions
+        protected virtual void SetPosition(float positionx, float positiony, float positionz = 0)
         {
-            _position = position;
+            _position = new Vector2(positionx, positiony);
         }
 
-        protected virtual void SetRotation(Angle rotation)
+        protected virtual void SetRotation(Angle rotationx, Angle rotationy = new Angle(), Angle rotationz = new Angle())
         {
-            LocalRotation = rotation;
+            LocalRotation = rotationx;
         }
     }
 }

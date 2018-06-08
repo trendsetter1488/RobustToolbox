@@ -101,6 +101,9 @@
     <Compile Include="GameController\GameController.Input.cs" />
     <Compile Include="GameController\GameController.IoC.cs" />
     <Compile Include="GameController\GameController.GameTiming.cs" />
+    <Compile Include="GameObjects\Components\Renderable\MeshComponent.cs" />
+    <Compile Include="GameObjects\Components\Transform\Transform2DGodot.cs" />
+    <Compile Include="GameObjects\Components\Transform\Transform3DGodot.cs" />
     <Compile Include="GameObjects\EntitySystems\AudioSystem.cs" />
     <Compile Include="GameObjects\EntitySystems\SpriteSystem.cs" />
     <Compile Include="GameObjects\GodotComponentFactory.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Console\Commands\Debug.cs" />
     <Compile Include="GameStates\ClientGameStateManager.cs" />
     <Compile Include="Graphics\CanvasLayers.cs" />
+    <Compile Include="Graphics\ClientEye\Eye3D.cs" />
     <Compile Include="Graphics\IDirectionalTextureProvider.cs" />
     <Compile Include="Graphics\Lighting\LightManager.Light.cs" />
     <Compile Include="Graphics\Lighting\LightManager.Occluder.cs" />
@@ -237,7 +241,7 @@
     <Compile Include="Interfaces\Graphics\ClientEye\IEyeManager.cs" />
     <Compile Include="Interfaces\Graphics\ClientEye\IEye.cs" />
     <Compile Include="Graphics\ClientEye\EyeManager.cs" />
-    <Compile Include="Graphics\ClientEye\Eye.cs" />
+    <Compile Include="Graphics\ClientEye\Eye2D.cs" />
     <Compile Include="Graphics\ClientEye\FixedEye.cs" />
     <Compile Include="GameObjects\Components\Eye\EyeComponent.cs" />
     <Compile Include="Placement\Modes\AlignSnapgridCenter.cs" />

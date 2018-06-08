@@ -11,6 +11,7 @@ namespace SS14.Client.Interfaces
         void Initialize(Godot.SceneTree tree);
 
         Godot.SceneTree SceneTree { get; }
-        Godot.Node2D WorldRoot { get; }
+
+        Godot.Node WorldRoot { get; }
     }
 }

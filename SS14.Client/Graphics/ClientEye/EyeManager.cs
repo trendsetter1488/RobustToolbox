@@ -18,6 +18,8 @@ namespace SS14.Client.Graphics.ClientEye
         [Dependency]
         readonly ISceneTreeHolder sceneTree;
 
+        ISceneTreeHolder IEyeManager.sceneTree => sceneTree;
+
         // We default to this when we get set to a null eye.
         private FixedEye defaultEye;
 
@@ -32,7 +34,7 @@ namespace SS14.Client.Graphics.ClientEye
                     return;
                 }
 
-                currentEye.GodotCamera.Current = false;
+                currentEye.Current = false;
                 if (value != null)
                 {
                     currentEye = value;
@@ -42,7 +44,25 @@ namespace SS14.Client.Graphics.ClientEye
                     currentEye = defaultEye;
                 }
 
-                currentEye.GodotCamera.Current = true;
+                currentEye.Current = true;
+            }
+        }
+
+        public static IEye NewDefaultEye(bool setCurrentOnInitialize)
+        {
+            if (true) //TODO 2DVS3D
+            {
+                return new Eye2D()
+                {
+                    Current = setCurrentOnInitialize
+                };
+            }
+            else
+            {
+                return new Eye3D()
+                {
+                    Current = setCurrentOnInitialize
+                };
             }
         }
 
@@ -69,7 +89,7 @@ namespace SS14.Client.Graphics.ClientEye
         {
             defaultEye = new FixedEye();
             currentEye = defaultEye;
-            currentEye.GodotCamera.Current = true;
+            currentEye.Current = true;
         }
 
         public void Dispose()
@@ -79,17 +99,15 @@ namespace SS14.Client.Graphics.ClientEye
 
         public Vector2 WorldToScreen(Vector2 point)
         {
-            var transform = sceneTree.WorldRoot.GetViewportTransform();
-            return transform.Xform(point.Convert() * PIXELSPERMETER).Convert();
+            return currentEye.WorldToScreen(point);
         }
 
         public ScreenCoordinates WorldToScreen(LocalCoordinates point)
         {
-            var pos = WorldToScreen(point.Position);
-            return new ScreenCoordinates(pos, point.MapID);
+            return new ScreenCoordinates(WorldToScreen(point.ToWorld().Position), point.MapID);
         }
 
-        public LocalCoordinates ScreenToWorld(ScreenCoordinates point)
+        public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3())
         {
             var pos = ScreenToWorld(point.Position);
             var grid = IoCManager.Resolve<IMapManager>().GetMap(point.MapID).FindGridAt(pos);
@@ -98,8 +116,7 @@ namespace SS14.Client.Graphics.ClientEye
 
         public Vector2 ScreenToWorld(Vector2 point)
         {
-            var transform = sceneTree.WorldRoot.GetViewportTransform();
-            return transform.XformInv(point.Convert()).Convert() / PIXELSPERMETER;
+            return currentEye.ScreenToWorld(point);
         }
     }
 }

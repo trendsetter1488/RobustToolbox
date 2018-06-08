@@ -154,7 +154,7 @@ namespace SS14.Client.Graphics.Lighting
                 }
                 else
                 {
-                    parentTransform.SceneNode.RemoveChild(Light2D);
+                    parentTransform.Node.RemoveChild(Light2D);
                 }
                 UpdateEnabled();
             }
@@ -163,7 +163,7 @@ namespace SS14.Client.Graphics.Lighting
             {
                 if (!Deferred)
                 {
-                    node.SceneNode.AddChild(Light2D);
+                    node.Node.AddChild(Light2D);
                 }
                 parentTransform = node;
                 UpdateEnabled();
@@ -207,7 +207,7 @@ namespace SS14.Client.Graphics.Lighting
                 // TODO: Maybe use OnMove events to make this less expensive.
                 if (Deferred && parentTransform != null)
                 {
-                    var newpos = parentTransform.SceneNode.GlobalPosition;
+                    var newpos = parentTransform.GlobalPosition;
                     if (CurrentPos != newpos)
                     {
                         Light2D.Position = newpos;

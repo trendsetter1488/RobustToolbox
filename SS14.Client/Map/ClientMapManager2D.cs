@@ -9,7 +9,7 @@ using SS14.Client.Graphics.ClientEye;
 
 namespace SS14.Client.Map
 {
-    public class ClientMapManager : MapManager
+    public class ClientMapManager2D : MapManager
     {
         [Dependency]
         private IClientTileDefinitionManager tileDefinitionManager;
@@ -18,7 +18,7 @@ namespace SS14.Client.Map
 
         private Dictionary<MapId, Dictionary<GridId, Godot.TileMap>> RenderTileMaps = new Dictionary<MapId, Dictionary<GridId, Godot.TileMap>>();
 
-        public ClientMapManager()
+        public ClientMapManager2D()
         {
             TileChanged += UpdateTileMapOnUpdate;
             MapCreated += UpdateOnMapCreated;

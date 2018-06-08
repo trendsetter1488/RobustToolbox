@@ -18,9 +18,11 @@ namespace SS14.Client.Interfaces.Graphics.ClientEye
         Box2 GetWorldViewport();
         void Initialize();
 
+        ISceneTreeHolder sceneTree { get; }
+
         Vector2 WorldToScreen(Vector2 point);
         ScreenCoordinates WorldToScreen(LocalCoordinates point);
-        LocalCoordinates ScreenToWorld(ScreenCoordinates point);
+        LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3());
         Vector2 ScreenToWorld(Vector2 point);
     }
 }

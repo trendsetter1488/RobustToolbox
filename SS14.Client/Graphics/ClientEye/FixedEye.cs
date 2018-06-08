@@ -8,9 +8,10 @@ namespace SS14.Client.Graphics.ClientEye
     /// <summary>
     ///     A fixed eye is an eye which is fixed to one point, its position.
     /// </summary>
-    public class FixedEye : Eye
+    public class FixedEye : Eye2D
     {
         private Vector2 position;
+
         public Vector2 Position
         {
             get => position;

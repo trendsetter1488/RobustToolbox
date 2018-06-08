@@ -1,5 +1,6 @@
 ﻿using SS14.Client.Graphics.ClientEye;
 using SS14.Client.Interfaces.GameObjects.Components;
+using SS14.Client.Interfaces.Graphics.ClientEye;
 using SS14.Shared.GameObjects;
 
 namespace SS14.Client.GameObjects
@@ -8,7 +9,7 @@ namespace SS14.Client.GameObjects
     {
         public override string Name => "Eye";
 
-        private Eye eye;
+        private IEye eye;
 
         // Horrible hack to get around ordering issues.
         private bool setCurrentOnInitialize = false;
@@ -32,11 +33,10 @@ namespace SS14.Client.GameObjects
         {
             base.Initialize();
             transform = Owner.GetComponent<IGodotTransformComponent>();
-            eye = new Eye
-            {
-                Current = setCurrentOnInitialize
-            };
-            transform.SceneNode.AddChild(eye.GodotCamera);
+
+            eye = EyeManager.NewDefaultEye(setCurrentOnInitialize);
+
+            transform.Node.AddChild(eye.Camera);
             transform.OnMove += Transform_OnMove;
         }
 
@@ -44,7 +44,8 @@ namespace SS14.Client.GameObjects
         {
             base.OnRemove();
             transform.OnMove -= Transform_OnMove;
-            eye.Dispose();
+            //TODO: Dispose
+            //eye.Dispose();
         }
 
         private void Transform_OnMove(object sender, Shared.Enums.MoveEventArgs e)

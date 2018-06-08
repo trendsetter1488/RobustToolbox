@@ -8,28 +8,21 @@ using SS14.Shared.Maths;
 
 namespace SS14.Client.GameObjects
 {
-    public class GodotTransformComponent : ClientTransformComponent, IGodotTransformComponent
+    abstract public class GodotTransformComponent : ClientTransformComponent, IGodotTransformComponent
     {
-        public Godot.Node2D SceneNode { get; private set; }
+        abstract public Godot.Node Node { get; }
 
         IGodotTransformComponent IGodotTransformComponent.Parent => (IGodotTransformComponent)Parent;
 
-        protected override void SetPosition(Vector2 position)
+        abstract public Godot.Vector2 GlobalPosition { get; }
+
+        protected override void SetPosition(float positionx, float positiony, float positionz = 0)
         {
-            base.SetPosition(position);
-            SceneNode.Position = (position * EyeManager.PIXELSPERMETER).Rounded().Convert();
+            base.SetPosition(positionx, positiony, positionz);
+            //SceneNode.Position = (position * EyeManager.PIXELSPERMETER).Rounded().Convert();
         }
 
-        protected override void SetRotation(Angle rotation)
-        {
-            base.SetRotation(rotation);
-            SceneNode.Rotation = (float)rotation - MathHelper.PiOver2;
-        }
-
-        private void UpdateSceneVisibility()
-        {
-            SceneNode.Visible = IsMapTransform;
-        }
+        abstract protected void UpdateSceneVisibility();
 
         protected override void AttachParent(ITransformComponent parent)
         {
@@ -39,8 +32,8 @@ namespace SS14.Client.GameObjects
             }
 
             base.AttachParent(parent);
-            SceneNode.GetParent().RemoveChild(SceneNode);
-            ((IGodotTransformComponent)parent).SceneNode.AddChild(SceneNode);
+            Node.GetParent().RemoveChild(Node);
+            ((IGodotTransformComponent)parent).Node.AddChild(Node);
             UpdateSceneVisibility();
         }
 
@@ -51,10 +44,10 @@ namespace SS14.Client.GameObjects
                 return;
             }
 
-            ((IGodotTransformComponent)Parent).SceneNode.RemoveChild(SceneNode);
+            ((IGodotTransformComponent)Parent).Node.RemoveChild(Node);
             base.DetachParent();
             var holder = IoCManager.Resolve<ISceneTreeHolder>();
-            holder.WorldRoot.AddChild(SceneNode);
+            holder.WorldRoot.AddChild(Node);
             UpdateSceneVisibility();
         }
 
@@ -62,21 +55,15 @@ namespace SS14.Client.GameObjects
         {
             base.OnAdd();
             var holder = IoCManager.Resolve<ISceneTreeHolder>();
-            SceneNode = new Godot.Node2D
-            {
-                Name = $"Transform {Owner.Uid} ({Owner.Name})",
-                Rotation = -MathHelper.PiOver2
-            };
-            holder.WorldRoot.AddChild(SceneNode);
+            holder.WorldRoot.AddChild(Node);
         }
 
         public override void OnRemove()
         {
             base.OnRemove();
 
-            SceneNode.QueueFree();
-            SceneNode.Dispose();
-            SceneNode = null;
+            Node.QueueFree();
+            Node.Dispose();
         }
     }
 }
