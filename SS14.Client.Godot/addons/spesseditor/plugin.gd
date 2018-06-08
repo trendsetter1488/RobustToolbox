@@ -52,8 +52,19 @@ func _on_sync_button_pressed():
 
 	for file in recursively_find_files(indir):
 		print(file)
+		var inpath = indir.get_current_dir() + "/" + file
+		var outpath = outdir.get_current_dir() + "/" + file
+		if outdir.file_exists(file):
+			# When your language is too cheap to use static.
+			var filedummygodwhy = File.new()
+			var hash1 = filedummygodwhy.get_md5(inpath)
+			var hash2 = filedummygodwhy.get_md5(outpath)
+			if hash1 == hash2:
+				print("skipping")
+				continue
+
 		# God fucking damnit this copy function lied and doesn't take in relative paths correctly.
-		outdir.copy(indir.get_current_dir() + "/" + file, outdir.get_current_dir() + "/" + file)
+		outdir.copy(inpath, outpath)
 
 
 func check_if_has_content_repo():
