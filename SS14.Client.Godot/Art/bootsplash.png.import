@@ -7,10 +7,7 @@ path="res://.import/bootsplash.png-edab0c323b941bd4e8220bfb7e423146.stex"
 [deps]
 
 source_file="res://Art/bootsplash.png"
-source_md5="afd2950e326e20ca6dc60145fb720626"
-
 dest_files=[ "res://.import/bootsplash.png-edab0c323b941bd4e8220bfb7e423146.stex" ]
-dest_md5="7357f288652efa84a04a45769a91a4c6"
 
 [params]
 
