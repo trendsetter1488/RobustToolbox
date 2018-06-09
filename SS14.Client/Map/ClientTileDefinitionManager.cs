@@ -28,7 +28,6 @@ namespace SS14.Client.Map
             var ret = base.Register(tileDef);
 
             TileSet.CreateTile(ret);
-            MeshLibrary.CreateItem(ret);
 
             if (!string.IsNullOrEmpty(tileDef.SpriteName))
             {

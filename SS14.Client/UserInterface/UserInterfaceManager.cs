@@ -88,6 +88,11 @@ namespace SS14.Client.UserInterface
             }));
         }
 
+        public void KILLCANVASLAYER()
+        {
+            _sceneTreeHolder.SceneTree.GetRoot().RemoveChild(CanvasLayer);
+        }
+
         public void Dispose()
         {
             RootControl.Dispose();

@@ -1,4 +1,4 @@
-using SS14.Client;
+﻿using SS14.Client;
 using SS14.Client.Input;
 using SS14.Client.Interfaces.UserInterface;
 using SS14.Client.UserInterface;
@@ -33,6 +33,11 @@ namespace SS14.UnitTesting.Client
         }
 
         public void Initialize()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void KILLCANVASLAYER()
         {
             throw new System.NotImplementedException();
         }

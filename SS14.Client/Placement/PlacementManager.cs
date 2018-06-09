@@ -181,7 +181,8 @@ namespace SS14.Client.Placement
                 ZIndex = 100,
                 Material = UnshadedMaterial
             };
-            sceneTree.WorldRoot.AddChild(drawNode);
+            //TODO: FIX
+            //sceneTree.WorldRoot.AddChild(drawNode);
             drawNodeDrawSubscriber = new GodotGlue.GodotSignalSubscriber0();
             drawNodeDrawSubscriber.Connect(drawNode, "draw");
             drawNodeDrawSubscriber.Signal += Render;

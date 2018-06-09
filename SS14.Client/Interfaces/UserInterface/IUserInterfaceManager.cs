@@ -1,4 +1,4 @@
-using SS14.Client.Input;
+﻿using SS14.Client.Input;
 using SS14.Client.UserInterface;
 using SS14.Client.Graphics;
 using SS14.Client.UserInterface.Controls;
@@ -46,5 +46,7 @@ namespace SS14.Client.Interfaces.UserInterface
         void PreKeyDown(KeyEventArgs args);
 
         void PreKeyUp(KeyEventArgs args);
+
+        void KILLCANVASLAYER();
     }
 }

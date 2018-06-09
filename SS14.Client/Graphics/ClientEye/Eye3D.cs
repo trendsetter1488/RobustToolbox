@@ -49,7 +49,20 @@ namespace SS14.Client.Graphics.ClientEye
 
         public Eye3D()
         {
-            GodotCamera = new Godot.Camera();
+            var environment = new Godot.Environment()
+            {
+                BackgroundMode = Godot.Environment.BGMode.Sky,
+                BackgroundColor = new Godot.Color(0, 0, 1)
+            };
+
+            GodotCamera = new Godot.Camera()
+            {
+                Environment = environment,
+                Projection = Godot.Camera.ProjectionEnum.Orthogonal,
+                RotationDegrees = new Godot.Vector3(-90, 0, 0),
+                Translation = new Godot.Vector3(0,10,0),
+                Size = 10
+            };
             eyeManager = IoCManager.Resolve<IEyeManager>();
         }
 

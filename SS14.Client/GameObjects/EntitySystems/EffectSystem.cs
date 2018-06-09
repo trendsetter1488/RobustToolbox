@@ -51,7 +51,7 @@ namespace SS14.Client.GameObjects
             {
                 Name = "EffectSystem",
             };
-            sceneTree.WorldRoot.AddChild(DrawingNode);
+            //sceneTree.WorldRoot.AddChild(DrawingNode);
 
             UnshadedMaterial = new Godot.CanvasItemMaterial()
             {

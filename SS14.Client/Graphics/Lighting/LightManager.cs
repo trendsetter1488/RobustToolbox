@@ -75,7 +75,7 @@ namespace SS14.Client.Graphics.Lighting
                 Color = new Godot.Color(0.1f, 0.1f, 0.1f),
                 Name = "LightingCanvasModulate"
             };
-            rootViewport = sceneTreeHolder.SceneTree.Root;
+            //rootViewport = sceneTreeHolder.SceneTree.Root;
 
             if (Deferred)
             {
@@ -113,7 +113,7 @@ namespace SS14.Client.Graphics.Lighting
             }
             else
             {
-                sceneTreeHolder.WorldRoot.AddChild(canvasModulate);
+                //sceneTreeHolder.WorldRoot.AddChild(canvasModulate);
             }
         }
 

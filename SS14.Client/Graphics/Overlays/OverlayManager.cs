@@ -25,11 +25,11 @@ namespace SS14.Client.Graphics.Overlays
         public void Initialize()
         {
             RootNodeWorld = new Godot.Node2D { Name = "OverlayRoot" };
-            sceneTreeHolder.WorldRoot.AddChild(RootNodeWorld);
+            //sceneTreeHolder.WorldRoot.AddChild(RootNodeWorld);
             RootNodeWorld.ZIndex = (int)DrawDepth.Overlays;
 
             RootNodeScreen = new Godot.Node2D { Name = "OverlayRoot" };
-            sceneTreeHolder.SceneTree.Root.GetNode("UILayer").AddChild(RootNodeScreen);
+            //sceneTreeHolder.SceneTree.Root.GetNode("UILayer").AddChild(RootNodeScreen);
         }
 
         public void FrameUpdate(RenderFrameEventArgs args)

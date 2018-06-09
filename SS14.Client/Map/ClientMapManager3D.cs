@@ -48,7 +48,7 @@ namespace SS14.Client.Map
             {
                 Theme = tileDefinitionManager.MeshLibrary,
                 // TODO: Unhardcode this cell size.
-                CellSize = new Godot.Vector3(EyeManager.PIXELSPERMETER, EyeManager.PIXELSPERMETER, 1f),
+                CellSize = new Godot.Vector3(1, 1, 1),
                 CellOctantSize = 4,
             };
             gridmap.SetName($"Grid {mapId}.{gridId}");

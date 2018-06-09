@@ -80,6 +80,8 @@ namespace SS14.Client.State.States
         {
             var input = MainMenuControl.GetChild("VBoxContainer").GetChild<LineEdit>("IPBox");
             TryConnect(input.Text);
+
+            IoCManager.Resolve<IUserInterfaceManager>().KILLCANVASLAYER();
         }
 
         private void IPBoxEntered(LineEdit.LineEditEventArgs args)
