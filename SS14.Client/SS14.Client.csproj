@@ -243,7 +243,6 @@
     <Compile Include="Interfaces\Graphics\ClientEye\IEye.cs" />
     <Compile Include="Graphics\ClientEye\EyeManager.cs" />
     <Compile Include="Graphics\ClientEye\Eye2D.cs" />
-    <Compile Include="Graphics\ClientEye\FixedEye.cs" />
     <Compile Include="GameObjects\Components\Eye\EyeComponent.cs" />
     <Compile Include="Placement\Modes\AlignSnapgridCenter.cs" />
     <Compile Include="Placement\Modes\AlignSnapgridBorder.cs" />

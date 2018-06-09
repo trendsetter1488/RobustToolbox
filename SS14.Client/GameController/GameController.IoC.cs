@@ -94,7 +94,16 @@ namespace SS14.Client
             IoCManager.Register<IEntityManager, ClientEntityManager>();
             IoCManager.Register<IComponentFactory, GodotComponentFactory>();
             IoCManager.Register<IComponentManager, ComponentManager>();
-            IoCManager.Register<IMapManager, ClientMapManager2D>();
+
+            if(SceneTreeHolder.arewethreeD)
+            {
+                IoCManager.Register<IMapManager, ClientMapManager3D>();
+            }
+            else
+            {
+                IoCManager.Register<IMapManager, ClientMapManager2D>();
+            }
+
             IoCManager.Register<ICollisionManager, CollisionManager>();
             IoCManager.Register<ITimerManager, TimerManager>();
 

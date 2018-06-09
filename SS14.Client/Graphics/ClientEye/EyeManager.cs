@@ -21,7 +21,7 @@ namespace SS14.Client.Graphics.ClientEye
         ISceneTreeHolder IEyeManager.sceneTree => sceneTree;
 
         // We default to this when we get set to a null eye.
-        private FixedEye defaultEye;
+        private IEye defaultEye;
 
         private IEye currentEye;
         public IEye CurrentEye
@@ -37,7 +37,10 @@ namespace SS14.Client.Graphics.ClientEye
                 var oldeye = currentEye;
                 currentEye = value;
 
-                oldeye.Current = false;
+                if(oldeye != null)
+                {
+                    oldeye.Current = false;
+                }
                 currentEye.Current = true;
             }
         }
@@ -81,14 +84,13 @@ namespace SS14.Client.Graphics.ClientEye
 
         public void Initialize()
         {
-            defaultEye = new FixedEye();
-            currentEye = defaultEye;
-            currentEye.Current = true;
+            defaultEye = NewDefaultEye(true);
         }
 
         public void Dispose()
         {
-            defaultEye.Dispose();
+            //TODO: Dispose
+            //defaultEye.Dispose();
         }
 
         public Vector2 WorldToScreen(Vector2 point)
@@ -104,7 +106,7 @@ namespace SS14.Client.Graphics.ClientEye
         public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3())
         {
             var pos = ScreenToWorld(point.Position);
-            var grid = IoCManager.Resolve<IMapManager>().GetMap(point.MapID).FindGridAt(pos);
+            var grid = IoCManager.Resolve<IMapManager>().DefaultMap.FindGridAt(pos);
             return new LocalCoordinates(pos, grid);
         }
 
