@@ -1,4 +1,5 @@
-﻿using SS14.Client.Graphics;
+﻿using SS14.Client.GameObjects.Components.Transform;
+using SS14.Client.Graphics;
 using SS14.Client.Graphics.ClientEye;
 using SS14.Client.Graphics.Drawing;
 using SS14.Client.Graphics.Shaders;
@@ -544,9 +545,12 @@ namespace SS14.Client.GameObjects
         {
             base.Initialize();
 
-            TransformComponent = Owner.GetComponent<IGodotTransformComponent>();
-            TransformComponent.Node.AddChild(SceneNode);
-            Redraw();
+            if (Owner.TryGetComponent(out Transform2DGodot transform))
+            {
+                TransformComponent = Owner.GetComponent<IGodotTransformComponent>();
+                TransformComponent.Node.AddChild(SceneNode);
+                Redraw();
+            }
         }
 
         private void ClearDraw()

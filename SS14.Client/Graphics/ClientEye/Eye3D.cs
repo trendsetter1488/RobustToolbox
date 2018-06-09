@@ -49,15 +49,17 @@ namespace SS14.Client.Graphics.ClientEye
 
         public Vector2 WorldToScreen(Vector2 point, Vector3 intersectionplane3d = new Vector3())
         {
-            return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
+            //return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
+            return new Vector2(0, 0);
         }
         
         public Vector2 ScreenToWorld(Vector2 point)
         {
-            var directionray = GodotCamera.ProjectRayNormal(point.Convert());
-            Godot.Node2D worldroot2d = (Godot.Node2D)eyeManager.sceneTree.WorldRoot;
-            var transform = worldroot2d.GetViewportTransform();
-            return transform.XformInv(point.Convert()).Convert() / EyeManager.PIXELSPERMETER;
+            //var directionray = GodotCamera.ProjectRayNormal(point.Convert());
+            //Godot.Node2D worldroot2d = (Godot.Node2D)eyeManager.sceneTree.WorldRoot;
+            //var transform = worldroot2d.GetViewportTransform();
+            //return transform.XformInv(point.Convert()).Convert() / EyeManager.PIXELSPERMETER;
+            return new Vector2(0, 0);
         }
 
         protected virtual void Dispose(bool disposing)

@@ -21,6 +21,10 @@ config/icon="res://logo.png"
 
 SS14Loader="*res://SS14Loader.cs"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "spesseditor" )
+
 [gdnative]
 
 singletons=[  ]

@@ -17,6 +17,10 @@
     energy: 1.2
     offset: "0, -16"
     color: "#DCDCC6"
+    
+  - type: Mesh
+    state: LightTube
+    scene: base
 
   placement:
     snap:

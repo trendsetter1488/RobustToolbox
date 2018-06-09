@@ -50,16 +50,16 @@ namespace SS14.Client.Graphics.ClientEye
 
         public static IEye NewDefaultEye(bool setCurrentOnInitialize)
         {
-            if (true) //TODO 2DVS3D
+            if (SceneTreeHolder.arewethreeD) //TODO 2DVS3D
             {
-                return new Eye2D()
+                return new Eye3D()
                 {
                     Current = setCurrentOnInitialize
                 };
             }
             else
             {
-                return new Eye3D()
+                return new Eye2D()
                 {
                     Current = setCurrentOnInitialize
                 };
@@ -110,7 +110,7 @@ namespace SS14.Client.Graphics.ClientEye
         public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3())
         {
             var pos = ScreenToWorld(point.Position);
-            var grid = IoCManager.Resolve<IMapManager>().GetMap(point.MapID).FindGridAt(pos);
+            var grid = IoCManager.Resolve<IMapManager>().DefaultMap.FindGridAt(pos);
             return new LocalCoordinates(pos, grid);
         }
 

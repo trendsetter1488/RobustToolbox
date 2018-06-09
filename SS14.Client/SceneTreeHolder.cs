@@ -10,6 +10,8 @@ namespace SS14.Client
 {
     public class SceneTreeHolder : ISceneTreeHolder
     {
+        public const bool arewethreeD = false;
+
         public Godot.SceneTree SceneTree { get; private set; }
 
         public Godot.Node WorldRoot { get; private set; }
@@ -18,16 +20,16 @@ namespace SS14.Client
         {
             SceneTree = tree ?? throw new ArgumentNullException(nameof(tree));
 
-            if(true) //TODO 2DVS3D
+            if(arewethreeD) //TODO 2DVS3D
             {
-                WorldRoot = new Godot.Node2D
+                WorldRoot = new Godot.Spatial
                 {
                     Name = "WorldRoot"
                 };
             }
             else
             {
-                WorldRoot = new Godot.Spatial
+                WorldRoot = new Godot.Node2D
                 {
                     Name = "WorldRoot"
                 };

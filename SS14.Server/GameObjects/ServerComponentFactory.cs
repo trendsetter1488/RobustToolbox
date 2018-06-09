@@ -28,6 +28,7 @@ namespace SS14.Server.GameObjects
             Register<ParticleSystemComponent>();
             Register<PhysicsComponent>();
             Register<SpriteComponent>();
+            Register<MeshComponent>();
             Register<TransformComponent>();
             RegisterReference<TransformComponent, ITransformComponent>();
             RegisterReference<TransformComponent, IServerTransformComponent>();
