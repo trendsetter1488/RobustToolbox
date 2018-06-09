@@ -202,4 +202,31 @@ namespace SS14.Client.Console.Commands
             return false;
         }
     }
+
+    class ThreeDDiag : IConsoleCommand
+    {
+        public string Command => "3dd";
+
+        public string Description => "";
+
+        public string Help => "";
+
+        public bool Execute(IDebugConsole console, params string[] args)
+        {
+            var tree = IoCManager.Resolve<ISceneTreeHolder>();
+            var vp = tree.SceneTree.Root;
+            console.AddLine($"ROOT VIEWPORT DIAG: Usage: {vp.Usage}, 3D disabled: {vp.Disable3d}");
+            var cam = vp.GetCamera();
+            if (cam == null)
+            {
+                console.AddLine($"No active 3D camera!");
+            }
+            else
+            {
+                console.AddLine($"Camera: {cam.Name}, env: {cam.Environment}");
+            }
+
+            return false;
+        }
+    }
 }

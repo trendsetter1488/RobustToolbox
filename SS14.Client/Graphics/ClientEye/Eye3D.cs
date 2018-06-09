@@ -52,7 +52,7 @@ namespace SS14.Client.Graphics.ClientEye
             var environment = new Godot.Environment()
             {
                 BackgroundMode = Godot.Environment.BGMode.Sky,
-                BackgroundColor = new Godot.Color(0, 0, 1)
+                BackgroundSky = new Godot.ProceduralSky(),
             };
 
             GodotCamera = new Godot.Camera()
@@ -60,7 +60,7 @@ namespace SS14.Client.Graphics.ClientEye
                 Environment = environment,
                 Projection = Godot.Camera.ProjectionEnum.Orthogonal,
                 RotationDegrees = new Godot.Vector3(-90, 0, 0),
-                Translation = new Godot.Vector3(0,10,0),
+                Translation = new Godot.Vector3(0, 10, 0),
                 Size = 10
             };
             eyeManager = IoCManager.Resolve<IEyeManager>();
@@ -71,7 +71,7 @@ namespace SS14.Client.Graphics.ClientEye
             //return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
             return new Vector2(0, 0);
         }
-        
+
         public Vector2 ScreenToWorld(Vector2 point)
         {
             //var directionray = GodotCamera.ProjectRayNormal(point.Convert());
