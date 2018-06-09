@@ -17,11 +17,14 @@ namespace SS14.Client.GameObjects.EntitySystems
 
         public override void FrameUpdate(float frameTime)
         {
-            foreach (var component in componentManager.GetComponents<ISpriteComponent>())
+            if(!SceneTreeHolder.arewethreeD)
             {
-                // TODO: Don't call this on components without RSIs loaded.
-                // Serious performance benefit here.
-                component.FrameUpdate(frameTime);
+                foreach (var component in componentManager.GetComponents<ISpriteComponent>())
+                {
+                    // TODO: Don't call this on components without RSIs loaded.
+                    // Serious performance benefit here.
+                    component.FrameUpdate(frameTime);
+                }
             }
         }
     }

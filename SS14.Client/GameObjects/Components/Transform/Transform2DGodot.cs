@@ -1,4 +1,6 @@
-﻿using SS14.Shared.Maths;
+﻿using SS14.Client.Graphics.ClientEye;
+using SS14.Client.Utility;
+using SS14.Shared.Maths;
 
 namespace SS14.Client.GameObjects.Components.Transform
 {
@@ -29,6 +31,13 @@ namespace SS14.Client.GameObjects.Components.Transform
         {
             base.SetRotation(rotationx);
             SceneNode.Rotation = (float)rotationx - MathHelper.PiOver2;
+        }
+
+        protected override void SetPosition(float positionx, float positiony, float positionz = 0)
+        {
+            base.SetPosition(positionx, positiony, positionz);
+            var position = new Vector2(positionx, positiony);
+            SceneNode.Position = (position * EyeManager.PIXELSPERMETER).Rounded().Convert();
         }
 
         public override void OnRemove()

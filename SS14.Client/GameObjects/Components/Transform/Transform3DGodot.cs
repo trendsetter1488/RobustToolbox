@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using SS14.Client.Graphics.ClientEye;
+using SS14.Client.Utility;
 using SS14.Shared.Maths;
 
 namespace SS14.Client.GameObjects.Components.Transform
@@ -9,7 +10,7 @@ namespace SS14.Client.GameObjects.Components.Transform
 
         public override Godot.Node Node => SceneNode;
 
-        public override Godot.Vector2 GlobalPosition => throw new System.NotImplementedException();
+        public override Godot.Vector2 GlobalPosition => new Godot.Vector2(SceneNode.Translation.x, SceneNode.Translation.y);
 
         public override void OnAdd()
         {
@@ -29,6 +30,13 @@ namespace SS14.Client.GameObjects.Components.Transform
         {
             base.SetRotation(rotationx);
             SceneNode.Rotation = new Godot.Vector3((float)rotationx - MathHelper.PiOver2, (float)rotationy, (float)rotationz);
+        }
+
+        protected override void SetPosition(float positionx, float positiony, float positionz = 0)
+        {
+            base.SetPosition(positionx, positiony, positionz);
+            var position = new Vector3(positionx, positiony, positionz);
+            SceneNode.Translation = (position * EyeManager.PIXELSPERMETER).Rounded().Convert();
         }
 
         public override void OnRemove()

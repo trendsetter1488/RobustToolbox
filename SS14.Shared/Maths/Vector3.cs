@@ -1088,6 +1088,11 @@ namespace SS14.Shared.Maths
                 Z == other.Z;
         }
 
+        public Vector3 Rounded()
+        {
+            return new Vector3((float)Math.Round(X), (float)Math.Round(Y), (float)Math.Round(Z));
+        }
+
         #endregion
     }
 }

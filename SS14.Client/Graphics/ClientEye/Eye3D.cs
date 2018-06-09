@@ -28,13 +28,19 @@ namespace SS14.Client.Graphics.ClientEye
 
                 if (value)
                 {
-                    eyeManager.CurrentEye = this;
                     GodotCamera.Current = true;
+                    if (eyeManager.CurrentEye != this)
+                    {
+                        eyeManager.CurrentEye = this;
+                    }
                 }
                 else
                 {
-                    eyeManager.CurrentEye = null;
                     GodotCamera.Current = false;
+                    if (eyeManager.CurrentEye == this)
+                    {
+                        eyeManager.CurrentEye = null;
+                    }
                 }
             }
         }

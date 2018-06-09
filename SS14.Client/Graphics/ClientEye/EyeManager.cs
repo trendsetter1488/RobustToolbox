@@ -34,16 +34,10 @@ namespace SS14.Client.Graphics.ClientEye
                     return;
                 }
 
-                currentEye.Current = false;
-                if (value != null)
-                {
-                    currentEye = value;
-                }
-                else
-                {
-                    currentEye = defaultEye;
-                }
+                var oldeye = currentEye;
+                currentEye = value;
 
+                oldeye.Current = false;
                 currentEye.Current = true;
             }
         }
@@ -110,7 +104,7 @@ namespace SS14.Client.Graphics.ClientEye
         public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3())
         {
             var pos = ScreenToWorld(point.Position);
-            var grid = IoCManager.Resolve<IMapManager>().DefaultMap.FindGridAt(pos);
+            var grid = IoCManager.Resolve<IMapManager>().GetMap(point.MapID).FindGridAt(pos);
             return new LocalCoordinates(pos, grid);
         }
 

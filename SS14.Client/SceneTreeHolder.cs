@@ -10,7 +10,7 @@ namespace SS14.Client
 {
     public class SceneTreeHolder : ISceneTreeHolder
     {
-        public const bool arewethreeD = false;
+        public const bool arewethreeD = true;
 
         public Godot.SceneTree SceneTree { get; private set; }
 
