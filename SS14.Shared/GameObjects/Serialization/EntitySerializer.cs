@@ -11,7 +11,7 @@
         public abstract void EntityFooter();
 
         public abstract void CompHeader();
-        public abstract void CompStart(string name);
+        public abstract bool CompStart(string name);
         public abstract void CompFooter();
 
         public abstract void DataField<T>(ref T value, string name, T defaultValue, bool alwaysWrite = false);

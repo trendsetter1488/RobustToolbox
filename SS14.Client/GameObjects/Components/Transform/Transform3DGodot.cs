@@ -16,7 +16,8 @@ namespace SS14.Client.GameObjects.Components.Transform
         {
             SceneNode = new Godot.Spatial
             {
-                Name = $"Transform {Owner.Uid} ({Owner.Name})"
+                Name = $"Transform {Owner.Uid} ({Owner.Name})",
+                Translation = new Godot.Vector3(0, 0, 1)
             };
             base.OnAdd();
         }
@@ -32,11 +33,11 @@ namespace SS14.Client.GameObjects.Components.Transform
             SceneNode.Rotation = new Godot.Vector3((float)rotationx - MathHelper.PiOver2, (float)rotationy, (float)rotationz);
         }
 
-        protected override void SetPosition(float positionx, float positiony, float positionz = 0)
+        protected override void SetPosition(float positionx, float positiony, float positionz = 1)
         {
             base.SetPosition(positionx, positiony, positionz);
             var position = new Vector3(positionx, positiony, positionz);
-            SceneNode.Translation = (position * EyeManager.PIXELSPERMETER).Rounded().Convert();
+            SceneNode.Translation = (position).Convert();
         }
 
         public override void OnRemove()

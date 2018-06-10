@@ -3,6 +3,7 @@ using SS14.Client.Interfaces.ResourceManagement;
 using SS14.Client.ResourceManagement;
 using SS14.Shared.Interfaces.Map;
 using SS14.Shared.IoC;
+using SS14.Shared.Log;
 using SS14.Shared.Map;
 using System.Collections.Generic;
 
@@ -18,7 +19,7 @@ namespace SS14.Client.Map
 
         public Godot.TileSet TileSet { get; private set; } = new Godot.TileSet();
 
-        public Godot.MeshLibrary MeshLibrary => new Godot.MeshLibrary();
+        public Godot.MeshLibrary MeshLibrary { get; private set; } = new Godot.MeshLibrary();
         
 
         private Dictionary<ushort, TextureResource> Textures = new Dictionary<ushort, TextureResource>();
@@ -26,19 +27,41 @@ namespace SS14.Client.Map
         public override ushort Register(ITileDefinition tileDef)
         {
             var ret = base.Register(tileDef);
-
+            
             TileSet.CreateTile(ret);
+            MeshLibrary.CreateItem(ret);
 
             if (!string.IsNullOrEmpty(tileDef.SpriteName))
             {
                 var texture = resourceCache.GetResource<TextureResource>($@"/Textures/Tiles/{tileDef.SpriteName}.png");
                 TileSet.TileSetTexture(ret, texture.Texture.GodotTexture);
                 Textures[ret] = texture;
+                
+                var surfacetool = new Godot.SurfaceTool();
+                surfacetool.Begin(Godot.Mesh.PrimitiveType.TriangleStrip);
+                surfacetool.AddColor(new Godot.Color(0, 0, 0));
+                surfacetool.AddUv(new Godot.Vector2(0, 1));
+                surfacetool.AddVertex(new Godot.Vector3(0, 1,0));
 
-                var mesh = new Godot.PlaneMesh();
+                surfacetool.AddColor(new Godot.Color(0, 0, 0));
+                surfacetool.AddUv(new Godot.Vector2(1, 1));
+                surfacetool.AddVertex(new Godot.Vector3(1, 1, 0));
+
+                surfacetool.AddColor(new Godot.Color(0, 0, 0));
+                surfacetool.AddUv(new Godot.Vector2(0, 0));
+                surfacetool.AddVertex(new Godot.Vector3(0, 0, 0));
+
+                surfacetool.AddColor(new Godot.Color(0, 0, 0));
+                surfacetool.AddUv(new Godot.Vector2(1, 0));
+                surfacetool.AddVertex(new Godot.Vector3(1, 0, 0));
+
+                //surfacetool.GenerateNormals();
+
                 var material = new Godot.SpatialMaterial();
-                material.AlbedoTexture = texture.Texture;
-                mesh.Material = material;
+                material.NormalTexture = texture.Texture;
+                surfacetool.SetMaterial(material);
+                var mesh = surfacetool.Commit();
+                Logger.Info(string.Format("setting {0}", ret));
                 MeshLibrary.SetItemMesh(ret, mesh);
             }
 

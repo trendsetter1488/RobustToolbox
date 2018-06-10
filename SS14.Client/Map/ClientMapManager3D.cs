@@ -32,7 +32,7 @@ namespace SS14.Client.Map
             var gridmap = RenderGridMaps[args.Grid.MapID][args.Grid.Index];
             foreach ((int x, int y, Tile tile) in args.Modified)
             {
-                gridmap.SetCellItem(x, y, 0, tile.TileId);
+                gridmap.SetCellItem(x, y, -1, tile.TileId);
             }
         }
 

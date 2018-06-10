@@ -83,7 +83,7 @@ namespace SS14.Client.GameObjects
                 offset = value;
                 if (SceneNode != null)
                 {
-                    SceneNode.Translation = value.Convert() * EyeManager.PIXELSPERMETER;
+                    SceneNode.Translation = value.Convert();
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace SS14.Client.GameObjects
             }
             catch
             {
-                Logger.ErrorS("go.comp.mesh", "Meshed failed to set new material on surface {0}! Trace:\n{1}", surface, Environment.StackTrace);
+                Logger.Info(string.Format("Meshed failed to set new material on surface {0}! Trace:\n{1}", surface, Environment.StackTrace));
             }
         }
 
@@ -151,19 +151,74 @@ namespace SS14.Client.GameObjects
             }
             catch
             {
-                Logger.ErrorS("go.comp.mesh", "Meshed failed to set new material on surface {0}! Trace:\n{1}", surface, Environment.StackTrace);
+                Logger.Info(string.Format("Meshed failed to set new material on surface {0}! Trace:\n{1}", surface, Environment.StackTrace));
             }
         }
 
         public void SetMeshInstance(string meshinstancename)
         {
+            if(string.IsNullOrEmpty(meshinstancename))
+            {
+                return;
+            }
+
+            if(SceneNode!= null)
+            {
+                Logger.Info("scene node is not null");
+            }
+            if (SceneNode == null)
+            {
+                Logger.Info("FUCK YOU SCENE NODE IS NULL HOW FUCKING COULD THAT BE");
+            }
+
+            Logger.Info(string.Format("setmeshinstance to {0}", meshinstancename));
+
             if (MasterScene == null)
             {
-                Logger.ErrorS("go.comp.mesh", "No packed scene to pull new state from! Trace:\n{1}", Environment.StackTrace);
+                Logger.Info(string.Format("No packed scene to pull new state from! Trace:\n{0}", Environment.StackTrace));
             }
             else
             {
-                //Decode meshinstance with this name from packedscene
+                var scene = MasterScene.Instance();
+                var newmeshinstance = scene.GetNode(meshinstancename);
+                Logger.Info(string.Format("type is {0}", newmeshinstance.GetType().ToString()));
+
+                if(Owner.TryGetComponent(out Transform3DGodot transform))
+                {
+                    TransformComponent = transform;
+                }
+
+
+                if(newmeshinstance != null)
+                {
+                    Logger.Info(string.Format("success on mesh {0}", meshinstancename));
+                    if (SceneNode != null)
+                    {
+                        if(TransformComponent != null)
+                        {
+                            TransformComponent.Node.RemoveChild(SceneNode);
+                        }
+                        SceneNode.QueueFree();
+                    }
+
+                    SceneNode = (Godot.MeshInstance)newmeshinstance;
+                    SceneNode.GetParent().RemoveChild(SceneNode);
+                    SceneNode.Visible = _visible;
+                    SceneNode.Rotation = rotation.Convert();
+                    SceneNode.Translation = offset.Convert();
+                    SceneNode.Scale = scale.Convert();
+                    if(TransformComponent != null)
+                    {
+                        Logger.Info(string.Format("added new mesh to scene {0}", meshinstancename));
+                        TransformComponent.Node.AddChild(SceneNode);
+                    }
+                    
+                    scene.QueueFree();
+                }
+                else
+                {
+                    Logger.Info(string.Format("Could not find meshinstance {0} in packed scene {1}! Trace:\n{2}", meshinstancename, MasterScene.ResourcePath,Environment.StackTrace));
+                }
             }
         }
 
@@ -177,7 +232,7 @@ namespace SS14.Client.GameObjects
             }
             catch
             {
-                Logger.ErrorS("go.comp.mesh", "Hey server, the packed scene '{0}' doesn't exist.", scenefilename);
+                Logger.Info(string.Format("Hey server, the packed scene '{0}' doesn't exist.", scenefilename));
             }
         }
 
@@ -190,18 +245,20 @@ namespace SS14.Client.GameObjects
         public override void OnAdd()
         {
             base.OnAdd();
-            SceneNode = new Godot.MeshInstance()
-            {
-                Mesh = new Godot.CubeMesh(),
-                Scale = scale.Convert(),
-                Translation = offset.Convert(),
-                Rotation = new Godot.Vector3(0, 0, 0)
-            };
+            //SceneNode = new Godot.MeshInstance()
+            //{
+            //    Mesh = new Godot.CubeMesh(),
+            //    Scale = new Godot.Vector3(0.5f, 0.5f, 0.5f),
+            //    Translation = offset.Convert(),
+            //    Rotation = new Godot.Vector3(0, 0, 0)
+            //};
         }
 
         public override void OnRemove()
         {
             base.OnRemove();
+
+            Logger.Info("FUCK YOU IF THIS GETS REACHED");
             
             SceneNode.QueueFree();
         }
@@ -212,7 +269,7 @@ namespace SS14.Client.GameObjects
 
             if(Owner.TryGetComponent(out Transform3DGodot transform))
             {
-                TransformComponent = Owner.GetComponent<IGodotTransformComponent>();
+                TransformComponent = transform;
                 TransformComponent.Node.AddChild(SceneNode);
             }
         }
@@ -232,17 +289,16 @@ namespace SS14.Client.GameObjects
                 }
                 catch
                 {
-                    Logger.ErrorS("go.comp.sprite", "Unable to load RSI '{0}'. Prototype: '{1}'", node.AsString(), Owner.Prototype.ID);
+                    Logger.Info(string.Format("Unable to load RSI '{0}'. Prototype: '{1}'", node.AsString(), Owner.Prototype.ID));
                 }
             }
 
-            if (mapping.TryGetNode("mesh", out node))
+            if (mapping.TryGetNode("state", out node))
             {
                 if (MasterScene == null)
                 {
-                    Logger.ErrorS("go.comp.mesh",
-                                  "No base packed scene set to load the mesh instance from: "
-                                  + "cannot use 'state' property. Prototype: '{0}'", Owner.Prototype.ID);
+                    Logger.Info(string.Format("No base packed scene set to load the mesh instance from: "
+                                  + "cannot use 'state' property. Prototype: '{0}'", Owner.Prototype.ID));
                 }
                 else
                 {
@@ -283,9 +339,8 @@ namespace SS14.Client.GameObjects
             if (thestate.ScenePath != null && MasterScene != null)
             {
                 SetPackedScene(thestate.ScenePath);
+                SetMeshInstance(thestate.MeshInstance);
             }
-
-            SetMeshInstance(thestate.MeshInstance);
         }
     }
 }

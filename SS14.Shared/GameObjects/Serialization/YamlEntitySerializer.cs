@@ -79,18 +79,21 @@ namespace SS14.Shared.GameObjects.Serialization
             }
         }
 
-        public override void CompStart(string name)
+        public override bool CompStart(string name)
         {
             if (Reading)
             {
+                _curMap = null;
                 var compMaps = _compSeq.Children;
 
-                _curMap = (YamlMappingNode)compMaps.First(m => m["type"].ToString() == name);
+                _curMap = (YamlMappingNode)compMaps.FirstOrDefault(m => m["type"].ToString() == name);
+                return (_curMap != null);
             }
             else
             {
                 _curMap = new YamlMappingNode();
                 _compSeq.Children.Add(_curMap);
+                return true;
             }
         }
 

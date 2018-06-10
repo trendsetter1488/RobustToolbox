@@ -167,11 +167,12 @@ namespace SS14.Shared.GameObjects
             {
                 string type = component.Name;
 
-                serializer.CompStart(type);
+                if(serializer.CompStart(type))
+                {
+                    serializer.DataField(ref type, "type", component.Name, true);
 
-                serializer.DataField(ref type, "type", component.Name, true);
-
-                component.ExposeData(serializer);
+                    component.ExposeData(serializer);
+                }
             }
         }
 

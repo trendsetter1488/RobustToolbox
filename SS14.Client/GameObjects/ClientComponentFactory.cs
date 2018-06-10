@@ -27,6 +27,8 @@ namespace SS14.Client.GameObjects
             RegisterReference<SpriteComponent, ISpriteComponent>();
             RegisterReference<SpriteComponent, IClickTargetComponent>();
 
+            Register<MeshComponent>();
+
             Register<ClickableComponent>();
             RegisterReference<ClickableComponent, IClientClickableComponent>();
             RegisterReference<ClickableComponent, IClickableComponent>();

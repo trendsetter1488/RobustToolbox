@@ -58,10 +58,12 @@ namespace SS14.Client.Graphics.ClientEye
             GodotCamera = new Godot.Camera()
             {
                 Environment = environment,
-                Projection = Godot.Camera.ProjectionEnum.Orthogonal,
-                RotationDegrees = new Godot.Vector3(-90, 0, 0),
-                Translation = new Godot.Vector3(0, 10, 0),
-                Size = 10
+                Fov = 90,
+                Projection = Godot.Camera.ProjectionEnum.Perspective,
+                RotationDegrees = new Godot.Vector3(0, 0, 0),
+                Translation = new Godot.Vector3(0, 0, 10),
+                Scale = new Godot.Vector3(1, 1, 1),
+                //Size = 10
             };
             eyeManager = IoCManager.Resolve<IEyeManager>();
         }

@@ -99,7 +99,7 @@ namespace SS14.Server.GameObjects
                 return;
             }
             physics.LinearVelocity = _moveDir * (_run ? FastMoveSpeed : BaseMoveSpeed);
-            transform.LocalRotation = _moveDir.GetDir().ToAngle();
+            //transform.LocalRotation = _moveDir.GetDir().ToAngle();
 
             base.Update(frameTime);
         }
