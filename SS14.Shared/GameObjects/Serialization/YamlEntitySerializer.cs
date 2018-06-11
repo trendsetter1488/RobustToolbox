@@ -33,6 +33,8 @@ namespace SS14.Shared.GameObjects.Serialization
                 { typeof(MapId), new MapIdSerializer() },
                 { typeof(GridId), new GridIdSerializer() },
                 { typeof(Vector2), new Vector2Serializer() },
+                { typeof(Vector3), new Vector3Serializer() },
+                { typeof(Vector4), new Vector4Serializer() },
                 { typeof(Angle), new AngleSerializer() },
                 { typeof(Box2), new Box2Serializer() }
             };
@@ -452,6 +454,48 @@ namespace SS14.Shared.GameObjects.Serialization
         {
             var vec = (Vector2)obj;
             return new YamlScalarNode($"{vec.X},{vec.Y}");
+        }
+    }
+
+    internal class Vector3Serializer : TypeSerializer
+    {
+        public override object NodeToType(Type type, YamlNode node)
+        {
+            var args = node.ToString().Split(',');
+
+            var x = float.Parse(args[0], CultureInfo.InvariantCulture);
+            var y = float.Parse(args[1], CultureInfo.InvariantCulture);
+            var z = float.Parse(args[2], CultureInfo.InvariantCulture);
+
+            return new Vector3(x, y, z);
+        }
+
+        public override YamlNode TypeToNode(object obj)
+        {
+            var vec = (Vector3)obj;
+            return new YamlScalarNode($"{vec.X},{vec.Y},{vec.Z}");
+        }
+    }
+
+    internal class Vector4Serializer : TypeSerializer
+    {
+        public override object NodeToType(Type type, YamlNode node)
+        {
+            var args = node.ToString().Split(',');
+
+            var x = float.Parse(args[0], CultureInfo.InvariantCulture);
+            var y = float.Parse(args[1], CultureInfo.InvariantCulture);
+            var z = float.Parse(args[2], CultureInfo.InvariantCulture);
+            var w = float.Parse(args[3], CultureInfo.InvariantCulture);
+
+
+            return new Vector4(x, y, z, w);
+        }
+
+        public override YamlNode TypeToNode(object obj)
+        {
+            var vec = (Vector4)obj;
+            return new YamlScalarNode($"{vec.X},{vec.Y},{vec.Z},{vec.W}");
         }
     }
 

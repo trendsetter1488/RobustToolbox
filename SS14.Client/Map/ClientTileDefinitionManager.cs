@@ -39,6 +39,7 @@ namespace SS14.Client.Map
                 
                 var surfacetool = new Godot.SurfaceTool();
                 surfacetool.Begin(Godot.Mesh.PrimitiveType.TriangleStrip);
+
                 surfacetool.AddColor(new Godot.Color(0, 0, 0));
                 surfacetool.AddUv(new Godot.Vector2(0, 1));
                 surfacetool.AddVertex(new Godot.Vector3(0, 1,0));
@@ -55,13 +56,10 @@ namespace SS14.Client.Map
                 surfacetool.AddUv(new Godot.Vector2(1, 0));
                 surfacetool.AddVertex(new Godot.Vector3(1, 0, 0));
 
-                //surfacetool.GenerateNormals();
-
                 var material = new Godot.SpatialMaterial();
-                material.NormalTexture = texture.Texture;
+                material.AlbedoTexture = texture.Texture;
                 surfacetool.SetMaterial(material);
                 var mesh = surfacetool.Commit();
-                Logger.Info(string.Format("setting {0}", ret));
                 MeshLibrary.SetItemMesh(ret, mesh);
             }
 

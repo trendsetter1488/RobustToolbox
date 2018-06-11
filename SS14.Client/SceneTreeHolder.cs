@@ -1,5 +1,6 @@
 ﻿using SS14.Client.Graphics;
 using SS14.Client.Interfaces;
+using SS14.Shared.IoC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace SS14.Client
 {
     public class SceneTreeHolder : ISceneTreeHolder
     {
-        public const bool arewethreeD = true;
-
         public Godot.SceneTree SceneTree { get; private set; }
 
         public Godot.Node WorldRoot { get; private set; }
@@ -20,7 +19,7 @@ namespace SS14.Client
         {
             SceneTree = tree ?? throw new ArgumentNullException(nameof(tree));
 
-            if(arewethreeD) //TODO 2DVS3D
+            if(IoCManager.arewethreeD) //TODO 2DVS3D
             {
                 WorldRoot = new Godot.Spatial
                 {

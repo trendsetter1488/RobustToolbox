@@ -95,7 +95,7 @@ namespace SS14.Client
             IoCManager.Register<IComponentFactory, GodotComponentFactory>();
             IoCManager.Register<IComponentManager, ComponentManager>();
 
-            if(SceneTreeHolder.arewethreeD)
+            if(IoCManager.arewethreeD)
             {
                 IoCManager.Register<IMapManager, ClientMapManager3D>();
             }

@@ -5,6 +5,7 @@ using SS14.Shared.GameObjects;
 using SS14.Shared.Input;
 using SS14.Shared.Interfaces.GameObjects;
 using SS14.Shared.Interfaces.Network;
+using SS14.Shared.IoC;
 using SS14.Shared.Log;
 using SS14.Shared.Maths;
 
@@ -119,6 +120,11 @@ namespace SS14.Server.GameObjects
             y -= _movingUp ? 1 : 0;
 
             _moveDir = new Vector2(x, y);
+
+            if(IoCManager.arewethreeD)
+            {
+                _moveDir = _moveDir * new Vector2(1, -1);
+            }
 
             // can't normalize zero length vector
             if (_moveDir.LengthSquared > 1.0e-6)

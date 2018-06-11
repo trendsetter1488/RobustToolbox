@@ -28,6 +28,8 @@ namespace SS14.Shared.IoC
     /// <seealso cref="Interfaces.Reflection.IReflectionManager"/>
     public static class IoCManager
     {
+        public const bool arewethreeD = true;
+
         /// <summary>
         /// Dictionary that maps the types passed to <see cref="Resolve{T}"/> to their implementation.
         /// </summary>

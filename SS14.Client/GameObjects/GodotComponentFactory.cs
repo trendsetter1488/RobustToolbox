@@ -1,6 +1,7 @@
 ﻿using SS14.Client.GameObjects.Components.Transform;
 using SS14.Client.Interfaces.GameObjects.Components;
 using SS14.Shared.Interfaces.GameObjects.Components;
+using SS14.Shared.IoC;
 
 namespace SS14.Client.GameObjects
 {
@@ -8,7 +9,7 @@ namespace SS14.Client.GameObjects
     {
         public GodotComponentFactory() : base()
         {
-            if(SceneTreeHolder.arewethreeD)
+            if(IoCManager.arewethreeD)
             {
                 Register<Transform3DGodot>(overwrite: true);
                 RegisterReference<Transform3DGodot, ITransformComponent>();

@@ -47,7 +47,7 @@ namespace SS14.Client.Graphics.ClientEye
 
         public static IEye NewDefaultEye(bool setCurrentOnInitialize)
         {
-            if (SceneTreeHolder.arewethreeD) //TODO 2DVS3D
+            if (IoCManager.arewethreeD) //TODO 2DVS3D
             {
                 return new Eye3D()
                 {

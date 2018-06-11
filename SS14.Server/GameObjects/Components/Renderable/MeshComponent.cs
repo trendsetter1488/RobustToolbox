@@ -28,8 +28,7 @@ namespace SS14.Server.GameObjects
             base.ExposeData(serializer);
 
             serializer.DataField(ref _visible, "visible", true);
-            _scale = Vector3.One;
-            //serializer.DataField(ref _scale, "scale", Vector3.One);
+            serializer.DataField(ref _scale, "scale", Vector3.One);
             serializer.DataField(ref _rotation, "rotation", Vector3.Zero);
             serializer.DataField(ref _offset, "offset", Vector3.Zero);
             serializer.DataField(ref _scenename, "scene", null);

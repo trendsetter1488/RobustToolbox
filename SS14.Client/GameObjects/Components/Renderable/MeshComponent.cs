@@ -257,8 +257,6 @@ namespace SS14.Client.GameObjects
         public override void OnRemove()
         {
             base.OnRemove();
-
-            Logger.Info("FUCK YOU IF THIS GETS REACHED");
             
             SceneNode.QueueFree();
         }

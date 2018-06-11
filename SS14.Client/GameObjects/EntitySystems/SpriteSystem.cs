@@ -17,7 +17,7 @@ namespace SS14.Client.GameObjects.EntitySystems
 
         public override void FrameUpdate(float frameTime)
         {
-            if(!SceneTreeHolder.arewethreeD)
+            if(!IoCManager.arewethreeD)
             {
                 foreach (var component in componentManager.GetComponents<ISpriteComponent>())
                 {
