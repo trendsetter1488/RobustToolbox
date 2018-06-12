@@ -22,7 +22,7 @@ namespace SS14.Client.Interfaces.Graphics.ClientEye
 
         Vector2 WorldToScreen(Vector2 point);
         ScreenCoordinates WorldToScreen(LocalCoordinates point);
-        LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3());
-        Vector2 ScreenToWorld(Vector2 point);
+        LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector4 scalarplaneequation = new Vector4());
+        Vector2 ScreenToWorld(Vector2 point, Vector4 scalarplaneequation = new Vector4());
     }
 }

@@ -162,15 +162,6 @@ namespace SS14.Client.GameObjects
                 return;
             }
 
-            if(SceneNode!= null)
-            {
-                Logger.Info("scene node is not null");
-            }
-            if (SceneNode == null)
-            {
-                Logger.Info("FUCK YOU SCENE NODE IS NULL HOW FUCKING COULD THAT BE");
-            }
-
             Logger.Info(string.Format("setmeshinstance to {0}", meshinstancename));
 
             if (MasterScene == null)

@@ -150,7 +150,16 @@ namespace SS14.Client.Placement
         /// </summary>
         public Direction Direction { get; set; } = Direction.South;
 
+        /// <summary>
+        /// The node which draws lines or adds textures to the scene for the placement mode
+        /// </summary>
         public Godot.Node2D drawNode { get; set; }
+
+        /// <summary>
+        /// The multimesh instance which can draw several meshes to the scene for the placement mode
+        /// </summary>
+        public Godot.MultiMeshInstance MeshToDraw { get; set; }
+
         private GodotGlue.GodotSignalSubscriber0 drawNodeDrawSubscriber;
 
         public PlacementManager()
@@ -182,10 +191,22 @@ namespace SS14.Client.Placement
                 Material = UnshadedMaterial
             };
             //TODO: FIX
-            //sceneTree.WorldRoot.AddChild(drawNode);
+            sceneTree.WorldRoot.AddChild(drawNode);
             drawNodeDrawSubscriber = new GodotGlue.GodotSignalSubscriber0();
             drawNodeDrawSubscriber.Connect(drawNode, "draw");
             drawNodeDrawSubscriber.Signal += Render;
+
+            MeshToDraw = new Godot.MultiMeshInstance()
+            {
+                //You need this material to properly shade it with the success/failure color during the render
+                MaterialOverride = new Godot.SpatialMaterial()
+                {
+                    AlbedoColor = new Godot.Color(1, 1, 1),
+                    VertexColorUseAsAlbedo = true,
+                    FlagsUnshaded = true
+                }
+            };
+            IoCManager.Resolve<ISceneTreeHolder>().WorldRoot.AddChild(MeshToDraw);
         }
 
         public void Dispose()
@@ -194,6 +215,9 @@ namespace SS14.Client.Placement
             drawNodeDrawSubscriber.Dispose();
             drawNode.QueueFree();
             drawNode.Dispose();
+
+            MeshToDraw.QueueFree();
+            MeshToDraw.Dispose();
         }
 
         private void HandlePlacementMessage(MsgPlacement msg)
@@ -230,6 +254,7 @@ namespace SS14.Client.Placement
             Eraser = false;
             // Make it draw again to remove the drawn things.
             drawNode?.Update();
+            MeshToDraw?.SetVisible(false);
         }
 
         public void Rotate()
@@ -252,7 +277,7 @@ namespace SS14.Client.Placement
 
             if (CurrentMode != null)
             {
-                CurrentMode.SetSprite();
+                CurrentMode.UpdateDrawInfo();
             }
         }
 
@@ -322,6 +347,7 @@ namespace SS14.Client.Placement
                 PreparePlacementTile((Tile)info.TileType);
             else
                 PreparePlacement(info.EntityType);
+            MeshToDraw.Visible = true;
         }
 
         public bool CurrentMousePosition(out ScreenCoordinates coordinates)

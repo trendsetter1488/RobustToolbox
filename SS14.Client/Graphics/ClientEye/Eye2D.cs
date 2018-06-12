@@ -58,14 +58,14 @@ namespace SS14.Client.Graphics.ClientEye
             eyeManager = IoCManager.Resolve<IEyeManager>();
         }
 
-        public Vector2 WorldToScreen(Vector2 point, Vector3 intersectionplane3d = new Vector3())
+        public Vector2 WorldToScreen(Vector2 point)
         {
             Godot.Node2D worldroot2d = (Godot.Node2D)eyeManager.sceneTree.WorldRoot;
             var transform = worldroot2d.GetViewportTransform();
             return transform.Xform(point.Convert() * EyeManager.PIXELSPERMETER).Convert();
         }
 
-        public Vector2 ScreenToWorld(Vector2 point)
+        public Vector2 ScreenToWorld(Vector2 point, Vector4 scalarplaneequation = new Vector4())
         {
             Godot.Node2D worldroot2d = (Godot.Node2D)eyeManager.sceneTree.WorldRoot;
             var transform = worldroot2d.GetViewportTransform();

@@ -18,8 +18,8 @@ namespace SS14.Client.Interfaces.Graphics.ClientEye
         /// </summary>
         bool Current { get; set; }
 
-        Vector2 WorldToScreen(Vector2 point, Vector3 intersectionplan3d = new Vector3());
+        Vector2 WorldToScreen(Vector2 point);
 
-        Vector2 ScreenToWorld(Vector2 point);
+        Vector2 ScreenToWorld(Vector2 point, Vector4 scalarplaneequation = new Vector4());
     }
 }

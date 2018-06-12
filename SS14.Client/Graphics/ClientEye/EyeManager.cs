@@ -103,16 +103,16 @@ namespace SS14.Client.Graphics.ClientEye
             return new ScreenCoordinates(WorldToScreen(point.ToWorld().Position), point.MapID);
         }
 
-        public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector3 intersectionplane3d = new Vector3())
+        public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector4 scalarplaneequation = new Vector4())
         {
-            var pos = ScreenToWorld(point.Position);
+            var pos = ScreenToWorld(point.Position, scalarplaneequation);
             var grid = IoCManager.Resolve<IMapManager>().DefaultMap.FindGridAt(pos);
             return new LocalCoordinates(pos, grid);
         }
 
-        public Vector2 ScreenToWorld(Vector2 point)
+        public Vector2 ScreenToWorld(Vector2 point, Vector4 scalarplaneequation = new Vector4())
         {
-            return currentEye.ScreenToWorld(point);
+            return currentEye.ScreenToWorld(point, scalarplaneequation);
         }
     }
 }

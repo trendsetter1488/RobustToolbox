@@ -2,6 +2,7 @@
 using SS14.Client.Interfaces.Graphics.ClientEye;
 using SS14.Client.Utility;
 using SS14.Shared.IoC;
+using SS14.Shared.Log;
 using SS14.Shared.Map;
 using SS14.Shared.Maths;
 
@@ -68,19 +69,50 @@ namespace SS14.Client.Graphics.ClientEye
             eyeManager = IoCManager.Resolve<IEyeManager>();
         }
 
-        public Vector2 WorldToScreen(Vector2 point, Vector3 intersectionplane3d = new Vector3())
+        public Vector2 WorldToScreen(Vector2 point)
         {
-            //return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
-            return new Vector2(0, 0);
+            return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
         }
 
-        public Vector2 ScreenToWorld(Vector2 point)
+        private Random random = new Random();
+
+        /// <summary>
+        /// This function returns the intersection of a screen point with the scalar plane plane specified by your argument.
+        /// Defaults to intersection with z = 0. To get intersection with any z value you can pass Vector4(0, 0, 1, z)
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="scalarplaneequation"></param>
+        /// <returns></returns>
+        public Vector2 ScreenToWorld(Vector2 point, Vector4 scalarplaneequation = new Vector4())
         {
-            //var directionray = GodotCamera.ProjectRayNormal(point.Convert());
-            //Godot.Node2D worldroot2d = (Godot.Node2D)eyeManager.sceneTree.WorldRoot;
-            //var transform = worldroot2d.GetViewportTransform();
-            //return transform.XformInv(point.Convert()).Convert() / EyeManager.PIXELSPERMETER;
-            return new Vector2(0, 0);
+            if(scalarplaneequation == new Vector4(0, 0, 0, 0))
+            {
+                scalarplaneequation = new Vector4(0, 0, 1, 0);
+            }
+            var cameraorigin = GodotCamera.GetGlobalTransform().origin;
+            var directionray = GodotCamera.ProjectRayNormal(point.Convert());
+            var normal = new Godot.Vector3(scalarplaneequation.X, scalarplaneequation.Y, scalarplaneequation.Z);
+            var denominator = directionray.Dot(normal);
+
+            if(denominator == 0)
+            {
+                return new Vector2(0, 0); //now you have fucked up
+            }
+
+            var numerator = scalarplaneequation.W - normal.Dot(cameraorigin);
+            var distancefromcameraorigin = numerator / denominator;
+            var planeintersectionpoint = distancefromcameraorigin * directionray + cameraorigin;
+
+            //if(random.Next() > int.MaxValue/30)
+            //    Logger.Info(string.Format("Oh fuck distance {0}, directionraynormal {1}, numerator {2}, planeintersection {3} {4} {5}",
+            //        distancefromcameraorigin,
+            //        GodotCamera.ProjectRayNormal(point.Convert()),
+            //        numerator,
+            //        planeintersectionpoint.x,
+            //        planeintersectionpoint.y,
+            //        planeintersectionpoint.z));
+            
+            return new Vector2(planeintersectionpoint.x, planeintersectionpoint.y);
         }
 
         protected virtual void Dispose(bool disposing)

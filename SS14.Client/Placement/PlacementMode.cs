@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using SS14.Client.Graphics;
 using SS14.Client.Graphics.ClientEye;
+using SS14.Client.Interfaces;
 using SS14.Client.ResourceManagement;
 using SS14.Client.Utility;
 using SS14.Shared.Interfaces.GameObjects.Components;
 using SS14.Shared.Interfaces.Map;
 using SS14.Shared.IoC;
+using SS14.Shared.Log;
 using SS14.Shared.Map;
 using SS14.Shared.Maths;
+using SS14.Shared.Utility;
+using YamlDotNet.RepresentationModel;
 
 namespace SS14.Client.Placement
 {
@@ -30,6 +34,14 @@ namespace SS14.Client.Placement
         /// Texture resource to draw to represent the entity we are tryign to spawn
         /// </summary>
         public Texture SpriteToDraw { get; set; }
+
+        /// <summary>
+        /// A multi mesh which we can use to represent the model we are going to draw
+        /// </summary>
+        public Godot.MultiMeshInstance MeshToDraw => pManager.MeshToDraw;
+
+
+        private Godot.Vector3 rotation = Godot.Vector3.Zero;
 
         /// <summary>
         /// Color set to the ghost entity when it has a valid spawn position
@@ -86,7 +98,7 @@ namespace SS14.Client.Placement
         {
             if (SpriteToDraw == null)
             {
-                SetSprite();
+                UpdateDrawInfo();
             }
 
             var size = SpriteToDraw.Size;
@@ -96,23 +108,71 @@ namespace SS14.Client.Placement
             {
                 case PlacementManager.PlacementTypes.None:
                     locationcollection = SingleCoordinate();
+                    Logger.Info("no mode");
                     break;
                 case PlacementManager.PlacementTypes.Line:
                     locationcollection = LineCoordinates();
+                    Logger.Info("line mode");
                     break;
                 case PlacementManager.PlacementTypes.Grid:
                     locationcollection = GridCoordinates();
+                    Logger.Info("grid mode");
                     break;
                 default:
                     locationcollection = SingleCoordinate();
                     break;
             }
 
-            foreach (var coordinate in locationcollection)
+            if(IoCManager.arewethreeD)
             {
-                var pos = coordinate.Position * EyeManager.PIXELSPERMETER - size / 2f;
-                var color = IsValidPosition(coordinate) ? ValidPlaceColor : InvalidPlaceColor;
-                pManager.drawNode.DrawTexture(SpriteToDraw.GodotTexture, pos.Convert(), color.Convert());
+                List<(Vector2, bool)> CoordinateAndSuccess = new List<(Vector2, bool)>();
+                var instancecount = 0;
+                foreach (var coordinate in locationcollection)
+                {
+                    instancecount++;
+                    CoordinateAndSuccess.Add((coordinate.Position, IsValidPosition(coordinate) ? true : false));
+                }
+
+                MeshToDraw.Multimesh.SetInstanceCount(instancecount);
+                instancecount = 0;
+                foreach ((var position, bool success) in CoordinateAndSuccess)
+                {
+                    var transform = new Godot.Transform(Godot.Basis.Identity, new Godot.Vector3(position.X, position.Y, 0));
+
+                    var eulerrotations = rotation.Convert();
+                    switch (pManager.Direction)
+                    {
+                        case Direction.North:
+                            break;
+                        case Direction.East:
+                            eulerrotations += new Vector3(0, 0, 90);
+                            break;
+                        case Direction.South:
+                            eulerrotations += new Vector3(0, 0, 180);
+                            break;
+                        case Direction.West:
+                            eulerrotations += new Vector3(0, 0, 270);
+                            break;
+                    }
+                    var quat = Quaternion.EulerToQuat(eulerrotations);
+                    transform.basis = new Godot.Basis(new Godot.Quat(quat.x, quat.y, quat.z, quat.W));
+
+                    var placementcolor = success ? ValidPlaceColor.Convert() : InvalidPlaceColor.Convert();
+
+                    MeshToDraw.Multimesh.SetInstanceTransform(instancecount, transform);
+                    MeshToDraw.Multimesh.SetInstanceColor(instancecount, placementcolor);
+                    Logger.Info(string.Format("instancecount {0}", instancecount));
+                    instancecount++;
+                }
+            }
+            else
+            {
+                foreach (var coordinate in locationcollection)
+                {
+                    var pos = coordinate.Position * EyeManager.PIXELSPERMETER - size / 2f;
+                    var color = IsValidPosition(coordinate) ? ValidPlaceColor : InvalidPlaceColor;
+                    pManager.drawNode.DrawTexture(SpriteToDraw.GodotTexture, pos.Convert(), color.Convert());
+                }
             }
         }
 
@@ -171,9 +231,75 @@ namespace SS14.Client.Placement
             return pManager.ResourceCache.TryGetResource("/Textures/" + key, out sprite);
         }
 
+        public void UpdateDrawInfo()
+        {
+            SetSprite();
+            AdjustMesh();
+        }
+
         public void SetSprite()
         {
             SpriteToDraw = pManager.CurrentBaseSprite.TextureFor(pManager.Direction);
+        }
+
+        public void AdjustMesh()
+        {
+            var prototype = pManager.CurrentPrototype;
+            if (prototype.Components.TryGetValue("Mesh", out var mapping))
+            {
+                if (mapping.TryGetNode("scene", out YamlNode node))
+                {
+                    var resource = (Godot.PackedScene)Godot.GD.Load("res://models/content/" + node.AsString() + ".dae");
+
+                    if (mapping.TryGetNode("state", out node))
+                    {
+                        var scene = resource.Instance();
+                        var newmeshinstance = (Godot.MeshInstance)scene.GetNode(node.AsString());
+
+                        if (newmeshinstance != null)
+                        {
+                            if (mapping.TryGetNode("Rotation", out node))
+                            {
+                                rotation = node.AsVector3().Convert();
+                            }
+                            if (mapping.TryGetNode("Translation", out node))
+                            {
+                                MeshToDraw.Translation = node.AsVector3().Convert();
+                            }
+                            if (mapping.TryGetNode("Scale", out node))
+                            {
+                                MeshToDraw.Scale = node.AsVector3().Convert();
+                            }
+
+                            //Create the multimesh using the prepared to color mesh we generated, we set its colors and transforms in render
+                            MeshToDraw.Multimesh = new Godot.MultiMesh()
+                            {
+                                TransformFormat = Godot.MultiMesh.TransformFormatEnum.Transform3d,
+                                InstanceCount = 0,
+                                Mesh = (Godot.Mesh)newmeshinstance.Mesh.Duplicate(),
+                                ColorFormat = Godot.MultiMesh.ColorFormatEnum.Float
+                            };
+                            return;
+                        }
+                    }
+                }
+            }
+
+            MeshFailure();
+        }
+
+        public void MeshFailure()
+        {
+            MeshToDraw.Multimesh = new Godot.MultiMesh()
+            {
+                TransformFormat = Godot.MultiMesh.TransformFormatEnum.Transform3d,
+                InstanceCount = 0,
+                ColorFormat = Godot.MultiMesh.ColorFormatEnum.Float,
+                Mesh = new Godot.CubeMesh()
+                {
+                    Size = new Godot.Vector3(0.5f, 0.5f, 0.5f),
+                }
+            };
         }
 
         /// <summary>
