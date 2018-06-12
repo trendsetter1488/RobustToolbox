@@ -200,7 +200,7 @@ namespace SS14.Client.GameObjects
                     SceneNode.Scale = scale.Convert();
                     if(TransformComponent != null)
                     {
-                        Logger.Info(string.Format("added new mesh to scene {0}", meshinstancename));
+                        Logger.Info("added new mesh to scene {0}", meshinstancename);
                         TransformComponent.Node.AddChild(SceneNode);
                     }
                     
@@ -208,7 +208,7 @@ namespace SS14.Client.GameObjects
                 }
                 else
                 {
-                    Logger.Info(string.Format("Could not find meshinstance {0} in packed scene {1}! Trace:\n{2}", meshinstancename, MasterScene.ResourcePath,Environment.StackTrace));
+                    Logger.Info("Could not find meshinstance {0} in packed scene {1}! Trace:\n{2}", meshinstancename, MasterScene.ResourcePath,Environment.StackTrace);
                 }
             }
         }

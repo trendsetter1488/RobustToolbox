@@ -108,15 +108,12 @@ namespace SS14.Client.Placement
             {
                 case PlacementManager.PlacementTypes.None:
                     locationcollection = SingleCoordinate();
-                    Logger.Info("no mode");
                     break;
                 case PlacementManager.PlacementTypes.Line:
                     locationcollection = LineCoordinates();
-                    Logger.Info("line mode");
                     break;
                 case PlacementManager.PlacementTypes.Grid:
                     locationcollection = GridCoordinates();
-                    Logger.Info("grid mode");
                     break;
                 default:
                     locationcollection = SingleCoordinate();
@@ -161,7 +158,6 @@ namespace SS14.Client.Placement
 
                     MeshToDraw.Multimesh.SetInstanceTransform(instancecount, transform);
                     MeshToDraw.Multimesh.SetInstanceColor(instancecount, placementcolor);
-                    Logger.Info(string.Format("instancecount {0}", instancecount));
                     instancecount++;
                 }
             }
@@ -288,6 +284,9 @@ namespace SS14.Client.Placement
             MeshFailure();
         }
 
+        /// <summary>
+        /// Give our mesh a default cube mesh to render with
+        /// </summary>
         public void MeshFailure()
         {
             MeshToDraw.Multimesh = new Godot.MultiMesh()

@@ -64,7 +64,7 @@ namespace SS14.Client.Graphics.ClientEye
                 RotationDegrees = new Godot.Vector3(0, 0, 0),
                 Translation = new Godot.Vector3(0, 0, 10),
                 Scale = new Godot.Vector3(1, 1, 1),
-                //Size = 10
+                Size = 25
             };
             eyeManager = IoCManager.Resolve<IEyeManager>();
         }
@@ -73,8 +73,6 @@ namespace SS14.Client.Graphics.ClientEye
         {
             return GodotCamera.UnprojectPosition(new Godot.Vector3(point.X, point.Y, 0f)).Convert();
         }
-
-        private Random random = new Random();
 
         /// <summary>
         /// This function returns the intersection of a screen point with the scalar plane plane specified by your argument.
@@ -103,15 +101,14 @@ namespace SS14.Client.Graphics.ClientEye
             var distancefromcameraorigin = numerator / denominator;
             var planeintersectionpoint = distancefromcameraorigin * directionray + cameraorigin;
 
-            //if(random.Next() > int.MaxValue/30)
-            //    Logger.Info(string.Format("Oh fuck distance {0}, directionraynormal {1}, numerator {2}, planeintersection {3} {4} {5}",
-            //        distancefromcameraorigin,
-            //        GodotCamera.ProjectRayNormal(point.Convert()),
-            //        numerator,
-            //        planeintersectionpoint.x,
-            //        planeintersectionpoint.y,
-            //        planeintersectionpoint.z));
-            
+            //Logger.Info(string.Format("Oh fuck distance {0}, directionraynormal {1}, numerator {2}, planeintersection {3} {4} {5}",
+            //    distancefromcameraorigin,
+            //    GodotCamera.ProjectRayNormal(point.Convert()),
+            //    numerator,
+            //    planeintersectionpoint.x,
+            //    planeintersectionpoint.y,
+            //    planeintersectionpoint.z));
+
             return new Vector2(planeintersectionpoint.x, planeintersectionpoint.y);
         }
 
