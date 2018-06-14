@@ -136,23 +136,22 @@ namespace SS14.Client.Placement
                 {
                     var transform = new Godot.Transform(Godot.Basis.Identity, new Godot.Vector3(position.X, position.Y, 0));
 
-                    var eulerrotations = rotation.Convert();
+                    var eulerrotations = rotation;
                     switch (pManager.Direction)
                     {
                         case Direction.North:
                             break;
                         case Direction.East:
-                            eulerrotations += new Vector3(0, 0, 90);
+                            eulerrotations += new Godot.Vector3(0, 90, 0);
                             break;
                         case Direction.South:
-                            eulerrotations += new Vector3(0, 0, 180);
+                            eulerrotations += new Godot.Vector3(0, 180, 0);
                             break;
                         case Direction.West:
-                            eulerrotations += new Vector3(0, 0, 270);
+                            eulerrotations += new Godot.Vector3(0, 270, 0);
                             break;
                     }
-                    var quat = Quaternion.EulerToQuat(eulerrotations);
-                    transform.basis = new Godot.Basis(new Godot.Quat(quat.x, quat.y, quat.z, quat.W));
+                    transform.basis = new Godot.Basis(eulerrotations * (float)Math.PI / 180);
 
                     var placementcolor = success ? ValidPlaceColor.Convert() : InvalidPlaceColor.Convert();
 
@@ -284,9 +283,6 @@ namespace SS14.Client.Placement
             MeshFailure();
         }
 
-        /// <summary>
-        /// Give our mesh a default cube mesh to render with
-        /// </summary>
         public void MeshFailure()
         {
             MeshToDraw.Multimesh = new Godot.MultiMesh()

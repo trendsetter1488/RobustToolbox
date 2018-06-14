@@ -30,7 +30,7 @@ namespace SS14.Client.GameObjects.Components.Transform
         protected override void SetRotation(Angle rotationx, Angle rotationy = new Angle(), Angle rotationz = new Angle())
         {
             base.SetRotation(rotationx);
-            SceneNode.Rotation = new Godot.Vector3((float)rotationx - MathHelper.PiOver2, (float)rotationy, (float)rotationz);
+            SceneNode.Rotation = new Godot.Vector3((float)rotationx, (float)rotationy, (float)rotationz);
         }
 
         protected override void SetPosition(float positionx, float positiony, float positionz = 1)

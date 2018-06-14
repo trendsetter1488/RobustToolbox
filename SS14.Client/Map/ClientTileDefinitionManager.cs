@@ -42,18 +42,22 @@ namespace SS14.Client.Map
 
                 surfacetool.AddColor(new Godot.Color(0, 0, 0));
                 surfacetool.AddUv(new Godot.Vector2(0, 1));
+                surfacetool.AddNormal(new Godot.Vector3(0, 0, 1));
                 surfacetool.AddVertex(new Godot.Vector3(0, 1,0));
 
                 surfacetool.AddColor(new Godot.Color(0, 0, 0));
                 surfacetool.AddUv(new Godot.Vector2(1, 1));
+                surfacetool.AddNormal(new Godot.Vector3(0, 0, 1));
                 surfacetool.AddVertex(new Godot.Vector3(1, 1, 0));
 
                 surfacetool.AddColor(new Godot.Color(0, 0, 0));
                 surfacetool.AddUv(new Godot.Vector2(0, 0));
+                surfacetool.AddNormal(new Godot.Vector3(0, 0, 1));
                 surfacetool.AddVertex(new Godot.Vector3(0, 0, 0));
 
                 surfacetool.AddColor(new Godot.Color(0, 0, 0));
                 surfacetool.AddUv(new Godot.Vector2(1, 0));
+                surfacetool.AddNormal(new Godot.Vector3(0, 0, 1));
                 surfacetool.AddVertex(new Godot.Vector3(1, 0, 0));
 
                 var material = new Godot.SpatialMaterial();

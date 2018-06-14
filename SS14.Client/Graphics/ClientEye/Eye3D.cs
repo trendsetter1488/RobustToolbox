@@ -52,8 +52,7 @@ namespace SS14.Client.Graphics.ClientEye
         {
             var environment = new Godot.Environment()
             {
-                BackgroundMode = Godot.Environment.BGMode.Sky,
-                BackgroundSky = new Godot.ProceduralSky(),
+                BackgroundMode = Godot.Environment.BGMode.ClearColor,
             };
 
             GodotCamera = new Godot.Camera()

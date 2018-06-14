@@ -14,14 +14,14 @@ namespace SS14.Client.Graphics.Lighting
         {
             public Vector2 Offset
             {
-                get => Light2D.Offset.Convert();
-                set => Light2D.Offset = value.Convert();
+                get => new Vector2(Light2D.GlobalTransform.origin.x, Light2D.GlobalTransform.origin.y);
+                set { }
             }
 
             public Angle Rotation
             {
-                get => new Angle(Light2D.GlobalRotation);
-                set => Light2D.Rotation = (float)value;
+                get => new Angle(0);
+                set { }
             }
 
             private Color color;
@@ -36,7 +36,7 @@ namespace SS14.Client.Graphics.Lighting
                     }
 
                     color = value;
-                    Light2D.Color = value.Convert();
+                    //Light2D.Color = value.Convert();
                 }
             }
 
@@ -52,7 +52,7 @@ namespace SS14.Client.Graphics.Lighting
                     }
 
                     textureScale = value;
-                    Light2D.TextureScale = value;
+                    //Light2D.TextureScale = value;
                 }
             }
 
@@ -68,7 +68,7 @@ namespace SS14.Client.Graphics.Lighting
                     }
 
                     energy = value;
-                    Light2D.Energy = value;
+                    //Light2D.Energy = value;
                 }
             }
 
@@ -104,7 +104,7 @@ namespace SS14.Client.Graphics.Lighting
                         return;
                     }
                     texture = value;
-                    Light2D.Texture = value;
+                    //Light2D.Texture = value;
                 }
             }
 
@@ -119,7 +119,7 @@ namespace SS14.Client.Graphics.Lighting
                 }
             }
 
-            private Godot.Light2D Light2D;
+            private Godot.OmniLight Light2D;
             private LightManager Manager;
             private bool Deferred => Manager.Deferred;
 
@@ -128,14 +128,21 @@ namespace SS14.Client.Graphics.Lighting
 
             public Light(LightManager manager)
             {
-                Light2D = new Godot.Light2D()
+                //Light2D = new Godot.Light2D()
+                //{
+                //    // TODO: Allow this to be modified.
+                //    ShadowEnabled = true,
+                //    ShadowFilter = Godot.Light2D.ShadowFilterEnum.Pcf13,
+                //    ShadowGradientLength = 1,
+                //    ShadowFilterSmooth = 0.25f,
+                //};
+
+                Light2D = new Godot.OmniLight()
                 {
-                    // TODO: Allow this to be modified.
-                    ShadowEnabled = true,
-                    ShadowFilter = Godot.Light2D.ShadowFilterEnum.Pcf13,
-                    ShadowGradientLength = 1,
-                    ShadowFilterSmooth = 0.25f,
+                    OmniRange = 10,
+                    OmniAttenuation = 1
                 };
+
                 Manager = manager;
                 Mode = new LightModeConstant();
                 Mode.Start(this);
@@ -150,7 +157,7 @@ namespace SS14.Client.Graphics.Lighting
             {
                 if (Deferred)
                 {
-                    Light2D.Position = new Godot.Vector2(0, 0);
+                    //Light2D.Position = new Godot.Vector2(0, 0);
                 }
                 else
                 {
@@ -210,7 +217,7 @@ namespace SS14.Client.Graphics.Lighting
                     var newpos = parentTransform.GlobalPosition;
                     if (CurrentPos != newpos)
                     {
-                        Light2D.Position = newpos;
+                        //Light2D.Position = newpos;
                     }
                 }
             }

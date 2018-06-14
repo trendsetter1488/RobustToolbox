@@ -3,6 +3,7 @@ using SS14.Client.Graphics;
 using SS14.Client.Graphics.ClientEye;
 using SS14.Client.Interfaces.GameObjects.Components;
 using SS14.Client.Interfaces.ResourceManagement;
+using SS14.Client.ResourceManagement;
 using SS14.Client.Utility;
 using SS14.Shared.GameObjects;
 using SS14.Shared.IoC;
@@ -66,7 +67,8 @@ namespace SS14.Client.GameObjects
                 rotation = value;
                 if (SceneNode != null)
                 {
-                    SceneNode.Rotation = value.Convert();
+                    var rotationset = new Godot.Vector3(rotation.X, rotation.Y, rotation.Z) * (float)Math.PI / 180;
+                    SceneNode.Rotation = rotationset;
                 }
             }
         }
@@ -198,7 +200,24 @@ namespace SS14.Client.GameObjects
                     SceneNode.Rotation = rotation.Convert();
                     SceneNode.Translation = offset.Convert();
                     SceneNode.Scale = scale.Convert();
-                    if(TransformComponent != null)
+
+                    var mesh = SceneNode.Mesh as Godot.ArrayMesh;
+                    if (mesh != null)
+                    {
+                        var surfacecount = mesh.GetSurfaceCount();
+                        for (var surface = 0; surface < surfacecount; surface++)
+                        {
+                            var materialname = mesh.SurfaceGetName(surface);
+                            if (!string.IsNullOrEmpty(materialname))
+                            {
+                                Logger.Info("loading material of name {0}", materialname);
+                                var material = (Godot.SpatialMaterial)Godot.GD.Load("res://models/content/" + materialname + ".material");
+                                material.AlbedoTexture = resourceCache.GetResource<TextureResource>(new ResourcePath("/textures") / new ResourcePath("pallete.png")).Texture;
+                                mesh.SurfaceSetMaterial(surface, material);
+                            }
+                        }
+                    }
+                    if (TransformComponent != null)
                     {
                         Logger.Info("added new mesh to scene {0}", meshinstancename);
                         TransformComponent.Node.AddChild(SceneNode);
@@ -302,7 +321,7 @@ namespace SS14.Client.GameObjects
 
             if (mapping.TryGetNode("rotation", out node))
             {
-                Rotation = node.AsVector3();
+                Rotation = node.AsVector3() * ((float)Math.PI / 180);
             }
 
             if (mapping.TryGetNode("offset", out node))
