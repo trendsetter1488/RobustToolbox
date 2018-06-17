@@ -17,7 +17,8 @@ namespace SS14.Client.GameObjects.Components.Transform
             SceneNode = new Godot.Spatial
             {
                 Name = $"Transform {Owner.Uid} ({Owner.Name})",
-                Translation = new Godot.Vector3(0, 0, 1)
+                Translation = new Godot.Vector3(0, 0, 0),
+                Rotation = new Godot.Vector3(0, 0, 0)
             };
             base.OnAdd();
         }
@@ -30,10 +31,10 @@ namespace SS14.Client.GameObjects.Components.Transform
         protected override void SetRotation(Angle rotationx, Angle rotationy = new Angle(), Angle rotationz = new Angle())
         {
             base.SetRotation(rotationx);
-            SceneNode.Rotation = new Godot.Vector3((float)rotationx, (float)rotationy, (float)rotationz);
+            SceneNode.Rotation = new Godot.Vector3(0, 0, (float)rotationx);
         }
 
-        protected override void SetPosition(float positionx, float positiony, float positionz = 1)
+        protected override void SetPosition(float positionx, float positiony, float positionz = 0)
         {
             base.SetPosition(positionx, positiony, positionz);
             var position = new Vector3(positionx, positiony, positionz);

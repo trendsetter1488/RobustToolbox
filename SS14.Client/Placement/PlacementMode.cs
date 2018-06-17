@@ -136,22 +136,23 @@ namespace SS14.Client.Placement
                 {
                     var transform = new Godot.Transform(Godot.Basis.Identity, new Godot.Vector3(position.X, position.Y, 0));
 
-                    var eulerrotations = rotation;
+                    var eulerrotations = rotation + new Godot.Vector3(90, 0, 0);
+                    transform.basis = new Godot.Basis(eulerrotations * (float)Math.PI / 180);
+
                     switch (pManager.Direction)
                     {
                         case Direction.North:
                             break;
                         case Direction.East:
-                            eulerrotations += new Godot.Vector3(0, 90, 0);
+                            transform.basis = transform.basis.Rotated(new Godot.Vector3(0, 0, 1), MathHelper.PiOver2);
                             break;
                         case Direction.South:
-                            eulerrotations += new Godot.Vector3(0, 180, 0);
+                            transform.basis = transform.basis.Rotated(new Godot.Vector3(0, 0, 1), 2 * MathHelper.PiOver2);
                             break;
                         case Direction.West:
-                            eulerrotations += new Godot.Vector3(0, 270, 0);
+                            transform.basis = transform.basis.Rotated(new Godot.Vector3(0, 0, 1), 3 * MathHelper.PiOver2);
                             break;
                     }
-                    transform.basis = new Godot.Basis(eulerrotations * (float)Math.PI / 180);
 
                     var placementcolor = success ? ValidPlaceColor.Convert() : InvalidPlaceColor.Convert();
 
@@ -253,15 +254,15 @@ namespace SS14.Client.Placement
 
                         if (newmeshinstance != null)
                         {
-                            if (mapping.TryGetNode("Rotation", out node))
+                            if (mapping.TryGetNode("rotation", out node))
                             {
                                 rotation = node.AsVector3().Convert();
                             }
-                            if (mapping.TryGetNode("Translation", out node))
+                            if (mapping.TryGetNode("translation", out node))
                             {
                                 MeshToDraw.Translation = node.AsVector3().Convert();
                             }
-                            if (mapping.TryGetNode("Scale", out node))
+                            if (mapping.TryGetNode("scale", out node))
                             {
                                 MeshToDraw.Scale = node.AsVector3().Convert();
                             }

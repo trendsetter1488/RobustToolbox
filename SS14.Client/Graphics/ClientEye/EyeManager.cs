@@ -106,7 +106,7 @@ namespace SS14.Client.Graphics.ClientEye
         public LocalCoordinates ScreenToWorld(ScreenCoordinates point, Vector4 scalarplaneequation = new Vector4())
         {
             var pos = ScreenToWorld(point.Position, scalarplaneequation);
-            var grid = IoCManager.Resolve<IMapManager>().DefaultMap.FindGridAt(pos);
+            var grid = IoCManager.Resolve<IMapManager>().GetMap(point.MapID).FindGridAt(pos);
             return new LocalCoordinates(pos, grid);
         }
 

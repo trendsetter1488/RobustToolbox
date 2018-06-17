@@ -67,7 +67,7 @@ namespace SS14.Client.GameObjects
                 rotation = value;
                 if (SceneNode != null)
                 {
-                    var rotationset = new Godot.Vector3(rotation.X, rotation.Y, rotation.Z) * (float)Math.PI / 180;
+                    var rotationset = new Godot.Vector3(rotation.X + 90, rotation.Y, rotation.Z) * (float)Math.PI / 180;
                     SceneNode.Rotation = rotationset;
                 }
             }
@@ -208,11 +208,12 @@ namespace SS14.Client.GameObjects
                         for (var surface = 0; surface < surfacecount; surface++)
                         {
                             var materialname = mesh.SurfaceGetName(surface);
+                            Logger.Info("loading material of name {0}", materialname);
                             if (!string.IsNullOrEmpty(materialname))
                             {
-                                Logger.Info("loading material of name {0}", materialname);
                                 var material = (Godot.SpatialMaterial)Godot.GD.Load("res://models/content/" + materialname + ".material");
-                                material.AlbedoTexture = resourceCache.GetResource<TextureResource>(new ResourcePath("/textures") / new ResourcePath("pallete.png")).Texture;
+                                //TODO: Configurable pallete?
+                                material.AlbedoTexture = resourceCache.GetResource<TextureResource>(new ResourcePath("/Textures") / new ResourcePath("pallete.png")).Texture;
                                 mesh.SurfaceSetMaterial(surface, material);
                             }
                         }
@@ -321,7 +322,7 @@ namespace SS14.Client.GameObjects
 
             if (mapping.TryGetNode("rotation", out node))
             {
-                Rotation = node.AsVector3() * ((float)Math.PI / 180);
+                Rotation = node.AsVector3();
             }
 
             if (mapping.TryGetNode("offset", out node))

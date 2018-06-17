@@ -140,7 +140,8 @@ namespace SS14.Client.Graphics.Lighting
                 Light2D = new Godot.OmniLight()
                 {
                     OmniRange = 10,
-                    OmniAttenuation = 1
+                    OmniAttenuation = 1,
+                    Translation = new Godot.Vector3(0, 0, 0),
                 };
 
                 Manager = manager;

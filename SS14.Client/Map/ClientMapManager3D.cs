@@ -32,7 +32,7 @@ namespace SS14.Client.Map
             var gridmap = RenderGridMaps[args.Grid.MapID][args.Grid.Index];
             foreach ((int x, int y, Tile tile) in args.Modified)
             {
-                gridmap.SetCellItem(x, y, -1, tile.TileId);
+                gridmap.SetCellItem(x, y, 0, tile.TileId);
             }
         }
 
@@ -49,7 +49,10 @@ namespace SS14.Client.Map
                 Theme = tileDefinitionManager.MeshLibrary,
                 // TODO: Unhardcode this cell size.
                 CellSize = new Godot.Vector3(1, 1, 1),
-                CellOctantSize = 4,
+                CellOctantSize = 1,
+                CellCenterZ = false,
+                CellCenterX = false,
+                CellCenterY = false,
             };
             gridmap.SetName($"Grid {mapId}.{gridId}");
             sceneTree.WorldRoot.AddChild(gridmap);
