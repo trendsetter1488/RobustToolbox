@@ -141,7 +141,7 @@ namespace SS14.Client.Graphics.Lighting
                 {
                     OmniRange = 10,
                     OmniAttenuation = 1,
-                    Translation = new Godot.Vector3(0, 0, 0),
+                    Translation = new Godot.Vector3(0, 0, 2),
                 };
 
                 Manager = manager;

@@ -16,6 +16,13 @@
   - type: Occluder
     sizeX: 32
     sizeY: 32
+  
+  - type: Mesh
+    scene: WallFull
+    state: WallFull
+    offset: 0, 0, 0
+    rotation: 0, 0, 0
+    scale: 1, 1, 0.5
 
   placement:
     snap:

@@ -10,11 +10,6 @@
     state: greyshirt
     scale: 2, 2
     drawdepth: Mobs
-    
-  - type: Mesh
-    scale: 2, 2, 2
-    state: OldMesh
-    scene: base
 
   - type: Icon
     sprite: Mob/greyshirt.rsi
