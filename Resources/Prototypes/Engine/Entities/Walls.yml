@@ -22,7 +22,7 @@
     state: WallFull
     offset: 0, 0, 0
     rotation: 0, 0, 0
-    scale: 1, 1, 0.5
+    scale: 1, 1, 1
 
   placement:
     snap:

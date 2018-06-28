@@ -23,4 +23,7 @@
 
   - type: Collidable
     DebugColor: "#0000FF"
-
+    
+  - type: Mesh
+    scene: GreyshirtCharacter
+    state: HumanLow
