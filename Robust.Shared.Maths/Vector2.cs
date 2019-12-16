@@ -139,6 +139,17 @@ namespace Robust.Shared.Maths
         }
 
         /// <summary>
+        ///     Multiply a vector by a scale by multiplying the individual components.
+        /// </summary>
+        /// <param name="vec">The vector to multiply.</param>
+        /// <param name="scale">The scale to multiply with.</param>
+        /// <returns>A new vector.</returns>
+        public static Vector2 operator *(float scale, Vector2 vec)
+        {
+            return new Vector2(vec.X * scale, vec.Y * scale);
+        }
+
+        /// <summary>
         ///     Multiplies a vector's components corresponding to a vector scale.
         /// </summary>
         public static Vector2 operator *(Vector2 vec, Vector2 scale)
@@ -327,6 +338,31 @@ namespace Robust.Shared.Maths
         public bool EqualsApprox(Vector2 other, double tolerance)
         {
             return FloatMath.CloseTo(X, other.X, tolerance) && FloatMath.CloseTo(Y, other.Y, tolerance);
+        }
+
+        public static float Distance(in Vector2 a, in Vector2 b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Vector2 Subtract(in Vector2 a, in Vector2 b)
+        {
+            return new Vector2(a.X - b.X, a.Y - b.Y);
+        }
+
+        public static Vector2 Add(in Vector2 a, in Vector2 b)
+        {
+            return new Vector2(a.X + b.X, a.Y + b.Y);
+        }
+
+        public static Vector2 Multiply(in Vector2 vec, in float scale)
+        {
+            return new Vector2(vec.X * scale, vec.Y * scale);
+        }
+
+        public static Vector2 Multiply(Vector2 vec, in Vector2 scale)
+        {
+            return new Vector2(vec.X * scale.X, vec.Y * scale.Y);
         }
     }
 }
