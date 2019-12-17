@@ -122,11 +122,12 @@ namespace Robust.Shared.GameObjects
         /// <inheritdoc />
         public bool Match(IEntity entity)
         {
-            if(Entity.TryGetComponent<ICollidableComponent>(out var collidable))
+            throw new NotImplementedException();
+            /*if(Entity.TryGetComponent<ICollidableComponent>(out var collidable))
             {
                 return collidable.MapID == entity.Transform.MapID && collidable.WorldAABB.Contains(entity.Transform.WorldPosition);
             }
-            return false;
+            return false;*/
         }
 
         public IEnumerable<IEntity> Match(IEntityManager entityMan)

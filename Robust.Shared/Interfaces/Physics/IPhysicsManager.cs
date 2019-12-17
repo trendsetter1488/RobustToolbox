@@ -22,10 +22,6 @@ namespace Robust.Shared.Interfaces.Physics
 
         bool TryCollide(IEntity entity, Vector2 offset, bool bump = true);
 
-        void AddBody(IPhysBody physBody);
-        void RemoveBody(IPhysBody physBody);
-        void BuildCollisionGrid();
-
         /// <summary>
         ///     Casts a ray in the world and returns the first thing it hit.
         /// </summary>
@@ -36,6 +32,14 @@ namespace Robust.Shared.Interfaces.Physics
         RayCastResults IntersectRay(Ray ray, float maxLength = 50, IEntity ignoredEnt = null);
 
         event Action<DebugRayData> DebugDrawRay;
+    }
+
+    internal interface IPhysicsManagerInternal : IPhysicsManager
+    {
+        void Step(float frameTime);
+
+        void AddBody(IPhysBodyInternal physBody);
+        void RemoveBody(IPhysBodyInternal physBody);
     }
 
     public struct DebugRayData

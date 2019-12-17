@@ -4,6 +4,7 @@ using Robust.Client.Graphics.Shaders;
 using Robust.Client.Interfaces.Debugging;
 using Robust.Client.Interfaces.Graphics.ClientEye;
 using Robust.Client.Interfaces.Graphics.Overlays;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.GameObjects.Components;
 using Robust.Shared.IoC;
@@ -99,7 +100,7 @@ namespace Robust.Client.Debugging
                 var worldHandle = (DrawingHandleWorld) handle;
 
                 var viewport = _eyeManager.GetWorldViewport();
-                foreach (var boundingBox in _componentManager.GetAllComponents<ICollidableComponent>())
+                foreach (var boundingBox in _componentManager.GetAllComponents<CollidableComponent>())
                 {
                     // all entities have a TransformComponent
                     var transform = ((IPhysBody) boundingBox).Owner.Transform;
@@ -131,7 +132,7 @@ namespace Robust.Client.Debugging
                             worldHandle.SetTransform(Matrix3.Identity);
                         }
                     }
-                    
+
                     // draw AABB
                     worldHandle.DrawRect(worldBox, colorEdge, false);
                 }
@@ -164,7 +165,7 @@ namespace Robust.Client.Debugging
                     {
                         continue;
                     }
-                    
+
                     var center = transform.WorldPosition;
                     var xLine = transform.WorldRotation.RotateVec(Vector2.UnitX);
                     var yLine = transform.WorldRotation.RotateVec(Vector2.UnitY);

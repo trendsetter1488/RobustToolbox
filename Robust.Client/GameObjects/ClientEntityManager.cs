@@ -37,7 +37,7 @@ namespace Robust.Client.GameObjects
                 if (transform.MapID != mapId)
                     continue;
 
-                if (entity.TryGetComponent<ICollidableComponent>(out var component))
+                if (entity.TryGetComponent<CollidableComponent>(out var component))
                 {
                     if (position.Intersects(component.WorldAABB))
                         yield return entity;
@@ -60,7 +60,7 @@ namespace Robust.Client.GameObjects
                 if (transform.MapID != mapId)
                     continue;
 
-                if (entity.TryGetComponent<ICollidableComponent>(out var component))
+                if (entity.TryGetComponent<CollidableComponent>(out var component))
                 {
                     if (component.WorldAABB.Contains(position))
                         yield return entity;
@@ -83,7 +83,7 @@ namespace Robust.Client.GameObjects
                 if (transform.MapID != mapId)
                     continue;
 
-                if (entity.TryGetComponent<ICollidableComponent>(out var component))
+                if (entity.TryGetComponent<CollidableComponent>(out var component))
                 {
                     if (box.Intersects(component.WorldAABB))
                         return true;

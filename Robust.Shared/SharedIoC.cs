@@ -41,6 +41,7 @@ namespace Robust.Shared
             IoCManager.Register<IModLoader, ModLoader>();
             IoCManager.Register<INetManager, NetManager>();
             IoCManager.Register<IPhysicsManager, PhysicsManager>();
+            IoCManager.Register<IPhysicsManagerInternal, PhysicsManager>();
             IoCManager.Register<IRobustSerializer, RobustSerializer>();
             IoCManager.Register<IRuntimeLog, RuntimeLog>();
             IoCManager.Register<ITaskManager, TaskManager>();

@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj" />
     <ProjectReference Include="..\Robust.Shared.Maths\Robust.Shared.Maths.csproj" />
+    <ProjectReference Include="..\Robust.Shared.Physics\Robust.Shared.Physics.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Robust.Shared.dll.config">

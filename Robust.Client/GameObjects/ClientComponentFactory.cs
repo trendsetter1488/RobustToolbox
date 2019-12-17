@@ -25,7 +25,7 @@ namespace Robust.Client.GameObjects
 
             Register<CollidableComponent>();
             RegisterReference<CollidableComponent, IPhysBody>();
-            RegisterReference<CollidableComponent, ICollidableComponent>();
+            RegisterReference<CollidableComponent, IPhysBodyInternal>();
             Register<IconComponent>();
             RegisterIgnore("KeyBindingInput");
             Register<PointLightComponent>();

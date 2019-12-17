@@ -6,7 +6,7 @@ using Robust.Shared.Maths;
 namespace Robust.Shared.Physics
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IPhysBody
     {
@@ -25,7 +25,7 @@ namespace Robust.Shared.Physics
         /// </summary>
         Box2 AABB { get; }
 
-        List<IPhysShape> PhysicsShapes { get; }
+        ICollection<IPhysShape> PhysicsShapes { get; }
 
         /// <summary>
         /// Enables or disabled collision processing of this body.
